@@ -124,8 +124,9 @@
                     </div>
                 </div>
 
-                <!-- Symmetrie & Unendliches -->
+                <!-- Symmetrie, Unendliches & Skizzieren -->
                 <div class="space-y-8">
+                    <!-- Symmetrie -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                         <h3 class="text-xl font-semibold text-slate-800 mb-4 text-indigo-600">Symmetrie</h3>
                         <div class="space-y-4">
@@ -142,6 +143,7 @@
                         </div>
                     </div>
 
+                    <!-- Verhalten im Unendlichen -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                         <h3 class="text-xl font-semibold text-slate-800 mb-4 text-indigo-600">Verhalten im Unendlichen</h3>
                         <p class="text-sm text-slate-700 mb-3">Schaue dir nur den Summanden mit dem <strong>höchsten Exponenten</strong> an. Er bestimmt den Verlauf "ganz links" und "ganz rechts".</p>
@@ -174,7 +176,21 @@
                         </div>
                     </div>
 
-                    <!-- NEU: Casio Wertetabelle -->
+                    <!-- Graphen skizzieren (NEU) -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-indigo-200 bg-indigo-50/50">
+                        <h3 class="text-xl font-semibold text-indigo-900 mb-3 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            Graphen skizzieren
+                        </h3>
+                        <p class="text-sm text-slate-700 mb-3">So zeichnest du einen Graphen anhand deiner berechneten Punkte fehlerfrei:</p>
+                        <ol class="list-decimal pl-5 text-sm space-y-2 text-slate-800">
+                            <li><strong>Punkte eintragen:</strong> Markiere den y-Achsenabschnitt, alle Nullstellen, Hoch-, Tief- und Wendepunkte als kleine Kreuze.</li>
+                            <li><strong>Unendliches markieren:</strong> Zeichne kleine Pfeile an den linken und rechten Rand deines Koordinatensystems (wie beim "Verhalten im Unendlichen" bestimmt).</li>
+                            <li><strong>Verbinden:</strong> Ziehe eine <em>geschwungene</em> Linie durch die Punkte. Beachte, dass es an Hoch-/Tiefpunkten eine weiche Kurve (keine Spitze!) gibt.</li>
+                        </ol>
+                    </div>
+
+                    <!-- Casio Wertetabelle -->
                     <div class="bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-700 text-slate-200 relative overflow-hidden">
                         <div class="absolute -right-4 -top-4 opacity-10">
                             <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
@@ -187,7 +203,7 @@
                             <li><code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">MENU</code> $\rightarrow$ <code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">9</code> (Tabelle)</li>
                             <li>Funktion $f(x)$ eintippen.</li>
                             <li>$g(x)$ überspringen (<code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">=</code> drücken).</li>
-                            <li><strong>Start</strong>, <strong>Ende</strong> und <strong>Schritt</strong> (Inkrement) festlegen.</li>
+                            <li><strong>Start</strong>, <strong>Ende</strong> und <strong>Schritt</strong> (Inkrement) festlegen. <em>(Die berechneten Werte als zusätzliche Punkte in deine Skizze eintragen!)</em></li>
                         </ol>
                     </div>
 
@@ -202,7 +218,7 @@
                     <span class="bg-emerald-100 text-emerald-700 rounded-full w-10 h-10 inline-flex items-center justify-center mr-4 text-xl">2</span>
                     Ableitungsfunktion
                 </h2>
-                <p class="text-slate-600 mt-2">Die Ableitung $f'(x)$ beschreibt das Steigungsverhalten der Originalfunktion $f(x)$.</p>
+                <p class="text-slate-600 mt-2">Die Ableitung $f'(x)$ beschreibt das Steigungsverhalten der Originalfunktion $f(x)$. Geometrische Bedeutung: <strong>$f'(x)$ entspricht der Steigung der Tangente an dieser Stelle.</strong></p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -262,60 +278,63 @@
                 </div>
             </div>
 
-            <!-- Tangentengleichung -->
+            <!-- Tangentengleichung (ERWEITERT) -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-xl font-semibold text-slate-800 mb-4 text-emerald-600 flex items-center">
+                <h3 class="text-xl font-semibold text-slate-800 mb-2 text-emerald-600 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     Tangentengleichung aufstellen
                 </h3>
-                <p class="text-sm text-slate-700 mb-4">Eine Tangente ist eine Gerade. Die allgemeine Gleichung lautet: <strong>$t(x) = m \cdot x + b$</strong>.</p>
+                <p class="text-sm text-slate-700 mb-6">Eine Tangente ist eine Gerade: <strong>$t(x) = m \cdot x + b$</strong>. Die Checkliste verlangt explizit BEIDE Fälle:</p>
                 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-3">
-                        <div class="flex items-start">
-                            <span class="bg-slate-200 text-slate-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">1</span>
-                            <p class="text-sm text-slate-700"><strong>y-Koordinate berechnen:</strong> Setze die gegebene Stelle $x_0$ in die Ausgangsfunktion $f(x)$ ein. $\rightarrow y = f(x_0)$.</p>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="bg-slate-200 text-slate-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">2</span>
-                            <div class="text-sm text-slate-700 w-full">
-                                <strong>Steigung $m$ berechnen:</strong> Bilde die Ableitung $f'(x)$ und setze $x_0$ ein. $\rightarrow m = f'(x_0)$.
-                                <div class="mt-2 bg-blue-50 text-blue-900 text-xs p-2 rounded border border-blue-200 shadow-sm">
-                                    <strong>Casio-Geheimwaffe zur Kontrolle:</strong><br> 
-                                    Drücke <code class="font-bold bg-white px-1 border rounded">SHIFT</code> + <code class="font-bold bg-white px-1 border rounded">$\int$</code> (die $\frac{d}{dx}$ Taste unter MENU). Gib die Funktion $f(x)$ ein und rechts bei $x=$ dein $x_0$. Der TR berechnet dir sofort die exakte Steigung $m$ an dieser Stelle!
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Fall 1: Stelle x0 gegeben -->
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <h4 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-2">Fall 1: Stelle $x_0$ ist gegeben</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">1</span>
+                                <p class="text-sm text-slate-700"><strong>y berechnen:</strong> Setze $x_0$ in $f(x)$ ein. $\rightarrow y = f(x_0)$.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">2</span>
+                                <div class="text-sm text-slate-700 w-full">
+                                    <strong>m berechnen:</strong> Bilde $f'(x)$ und setze $x_0$ ein. $\rightarrow m = f'(x_0)$.
+                                    <div class="mt-2 bg-blue-50 text-blue-900 text-xs p-2 rounded border border-blue-200 shadow-sm">
+                                        <strong>Casio-Geheimwaffe:</strong> <code class="font-bold bg-white px-1 border rounded">SHIFT</code> + <code class="font-bold bg-white px-1 border rounded">$\int$</code>. $f(x)$ und $x_0$ eingeben $\rightarrow$ Steigung $m$ wird sofort berechnet!
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="bg-slate-200 text-slate-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">3</span>
-                            <p class="text-sm text-slate-700"><strong>y-Achsenabschnitt $b$ berechnen:</strong> Setze $x_0$, $y$ und $m$ in die Geradengleichung $y = m \cdot x + b$ ein und löse nach $b$ auf.</p>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="bg-slate-200 text-slate-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">4</span>
-                            <p class="text-sm text-slate-700"><strong>Gleichung notieren:</strong> Schreibe $t(x) = m \cdot x + b$ mit den berechneten Zahlen für $m$ und $b$ auf.</p>
+                            <div class="flex items-start">
+                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">3</span>
+                                <p class="text-sm text-slate-700"><strong>b berechnen:</strong> Setze $x_0$, $y$ und $m$ in $y = m \cdot x + b$ ein und löse nach $b$ auf.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">4</span>
+                                <p class="text-sm text-slate-700"><strong>Notieren:</strong> $t(x) = m \cdot x + b$</p>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div>
-                        <details class="bg-emerald-50 rounded-lg border border-emerald-200 p-4 h-full">
-                            <summary class="font-bold text-emerald-800 text-sm flex justify-between items-center cursor-pointer">
-                                Komplette Beispielrechnung ansehen
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"></path></svg>
-                            </summary>
-                            <div class="mt-4 text-sm text-slate-800 border-t border-emerald-200 pt-3 math-block space-y-2">
-                                <p><strong>Gegeben:</strong> $f(x) = x^2 - 4x + 3$, an der Stelle $x_0 = 4$</p>
-                                <p><strong>Schritt 1:</strong> $y = f(4) = 4^2 - 4(4) + 3 = 16 - 16 + 3 = 3$<br>
-                                $\Rightarrow$ Berührpunkt $P(4 | 3)$</p>
-                                <p><strong>Schritt 2:</strong> $f'(x) = 2x - 4$<br>
-                                $m = f'(4) = 2(4) - 4 = 8 - 4 = 4$<br>
-                                $\Rightarrow$ Steigung $m = 4$</p>
-                                <p><strong>Schritt 3:</strong> Einsetzen in $y = m \cdot x + b$<br>
-                                $3 = 4 \cdot 4 + b$<br>
-                                $3 = 16 + b \quad | -16$<br>
-                                $-13 = b$</p>
-                                <p><strong>Schritt 4:</strong> $t(x) = 4x - 13$</p>
+
+                    <!-- Fall 2: Steigung m gegeben (NEU) -->
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wide">Oft in Klausuren</div>
+                        <h4 class="font-bold text-emerald-900 mb-3 border-b border-emerald-200 pb-2">Fall 2: Steigung $m$ ist gegeben</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <span class="bg-emerald-200 text-emerald-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">1</span>
+                                <div class="text-sm text-slate-800 w-full">
+                                    <strong>$x_0$ ausrechnen:</strong> Setze die Ableitung gleich der Steigung: <strong>$f'(x) = m$</strong>. Löse diese Gleichung (ggf. mit Casio <code>A</code> -> <code>2</code>), um die Berührstelle $x_0$ zu finden.
+                                </div>
                             </div>
-                        </details>
+                            <div class="flex items-start">
+                                <span class="bg-emerald-200 text-emerald-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">2</span>
+                                <p class="text-sm text-slate-800"><strong>y berechnen:</strong> Setze das gefundene $x_0$ in $f(x)$ ein. $\rightarrow y = f(x_0)$.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="bg-emerald-200 text-emerald-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">3</span>
+                                <p class="text-sm text-slate-800"><strong>b berechnen:</strong> Wie in Fall 1 in $y = mx + b$ einsetzen.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -366,7 +385,7 @@
                     </div>
                 </div>
 
-                <!-- Wendepunkte -->
+                <!-- Wendepunkte (ERWEITERT UM KRÜMMUNG) -->
                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-rose-100 relative overflow-hidden">
                     <h3 class="text-2xl font-semibold text-slate-800 mb-2 text-rose-600">Wendepunkte</h3>
                     <p class="text-sm text-slate-500 mb-6">Punkte des stärksten Anstiegs oder stärksten Abfalls.</p>
@@ -374,14 +393,15 @@
                     <div class="space-y-4">
                         <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
                             <h4 class="font-bold text-sm text-slate-800 mb-1">1. Notwendige Bedingung: $f''(x) = 0$</h4>
-                            <p class="text-sm text-slate-600">Im Wendepunkt wechselt die Krümmung. Daher ist dort die Rechts-/Linkskrümmung null. Berechne so die möglichen x-Werte ($x_W$).</p>
+                            <p class="text-sm text-slate-600">Im Wendepunkt wechselt die Krümmung (Übergang Rechts- in Linkskrümmung oder umgekehrt). Daher ist $f''(x)$ dort null. Berechne die x-Werte ($x_W$).</p>
                         </div>
                         
                         <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
                             <h4 class="font-bold text-sm text-slate-800 mb-1">2. Hinreichende Bedingung: $f'''(x_W) \neq 0$</h4>
-                            <p class="text-sm text-slate-600">Setze die gefundenen $x_W$ in die 3. Ableitung ein.</p>
+                            <p class="text-sm text-slate-600">Setze die gefundenen $x_W$ in die 3. Ableitung ein. Das Ergebnis zeigt dir auch die Art des Krümmungswechsels:</p>
                             <ul class="mt-2 text-sm text-slate-700 space-y-1 pl-4 border-l-2 border-rose-300">
-                                <li>Ist das Ergebnis $\neq 0$, hast du sicher einen Wendepunkt nachgewiesen.</li>
+                                <li>$f'''(x_W) > 0 \rightarrow$ <strong>Rechts-Links-Wendepunkt</strong> (Übergang von Rechtskrümmung in Linkskrümmung; minimales Gefälle).</li>
+                                <li>$f'''(x_W) < 0 \rightarrow$ <strong>Links-Rechts-Wendepunkt</strong> (Übergang von Linkskrümmung in Rechtskrümmung; maximale Steigung).</li>
                             </ul>
                         </div>
 
@@ -392,7 +412,7 @@
 
                         <div class="bg-slate-800 text-slate-200 p-4 rounded-lg mt-4 text-sm">
                             <strong class="text-rose-400">Sachaufgabe / Bedeutung:</strong><br>
-                            Wendepunkte sucht man bei Begriffen wie <em>"Zeitpunkt des stärksten Wachstums"</em>, <em>"maximaler Anstieg"</em> oder <em>"steilste Stelle"</em>.
+                            Wendepunkte sucht man bei Begriffen wie <em>"Zeitpunkt des stärksten Wachstums"</em>, <em>"maximaler Anstieg"</em> oder <em>"steilster Abfall"</em>.
                         </div>
                     </div>
                 </div>
