@@ -114,9 +114,12 @@
                             2. <em>pq-Formel:</em> Bei $x^2 + px + q = 0$.<br>
                             3. <em>Substitution:</em> Bei Formaten wie $ax^4 + bx^2 + c = 0$ (Setze $z = x^2$).
                         </div>
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-3 text-sm text-slate-800">
-                            <strong>Mit Taschenrechner (TR):</strong><br>
-                            Nutze den Befehl <code>polyroots(Funktion, x)</code> oder lasse dir den Graphen zeichnen und nutze die Funktion <code>Zero / Nullstelle</code>.
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-3 text-sm text-slate-800 shadow-sm">
+                            <strong>Mit dem Casio fx-991DEX:</strong><br>
+                            1. <code>MENU</code> $\rightarrow$ <code>A</code> (Gleichung/Funkt.) $\rightarrow$ <code>2</code> (Polynom-Gleichung).<br>
+                            2. Grad der Funktion wählen (z.B. 3 für $x^3$).<br>
+                            3. Vorfaktoren (Koeffizienten) eingeben und mit <code>=</code> die Nullstellen ablesen.<br>
+                            <em>Achtung: Werte mit einem "i" am Ende sind imaginär und für dich keine Nullstellen!</em>
                         </div>
                     </div>
                 </div>
@@ -170,6 +173,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- NEU: Casio Wertetabelle -->
+                    <div class="bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-700 text-slate-200 relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 opacity-10">
+                            <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-3 flex items-center relative z-10">
+                            Casio fx-991DEX: Wertetabelle
+                        </h3>
+                        <p class="text-sm mb-4 text-slate-300 relative z-10">Tipp aus der Checkliste: Bei Unsicherheiten beim Graphen skizzieren immer eine Wertetabelle nutzen!</p>
+                        <ol class="list-decimal pl-5 text-sm space-y-2 text-slate-300 font-mono relative z-10">
+                            <li><code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">MENU</code> $\rightarrow$ <code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">9</code> (Tabelle)</li>
+                            <li>Funktion $f(x)$ eintippen.</li>
+                            <li>$g(x)$ überspringen (<code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">=</code> drücken).</li>
+                            <li><strong>Start</strong>, <strong>Ende</strong> und <strong>Schritt</strong> (Inkrement) festlegen.</li>
+                        </ol>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -257,7 +278,13 @@
                         </div>
                         <div class="flex items-start">
                             <span class="bg-slate-200 text-slate-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">2</span>
-                            <p class="text-sm text-slate-700"><strong>Steigung $m$ berechnen:</strong> Bilde die Ableitung $f'(x)$ und setze $x_0$ ein. $\rightarrow m = f'(x_0)$.</p>
+                            <div class="text-sm text-slate-700 w-full">
+                                <strong>Steigung $m$ berechnen:</strong> Bilde die Ableitung $f'(x)$ und setze $x_0$ ein. $\rightarrow m = f'(x_0)$.
+                                <div class="mt-2 bg-blue-50 text-blue-900 text-xs p-2 rounded border border-blue-200 shadow-sm">
+                                    <strong>Casio-Geheimwaffe zur Kontrolle:</strong><br> 
+                                    Drücke <code class="font-bold bg-white px-1 border rounded">SHIFT</code> + <code class="font-bold bg-white px-1 border rounded">$\int$</code> (die $\frac{d}{dx}$ Taste unter MENU). Gib die Funktion $f(x)$ ein und rechts bei $x=$ dein $x_0$. Der TR berechnet dir sofort die exakte Steigung $m$ an dieser Stelle!
+                                </div>
+                            </div>
                         </div>
                         <div class="flex items-start">
                             <span class="bg-slate-200 text-slate-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">3</span>
