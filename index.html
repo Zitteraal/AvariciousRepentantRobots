@@ -1,466 +1,372 @@
 <!DOCTYPE html>
-<html lang="de" class="scroll-smooth">
+<html lang="de" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis & Kurvendiskussion - Lernportal</title>
-    <!-- Tailwind CSS für das Styling -->
+    <title>Klausur-Masterclass: Geteiltes Deutschland</title>
+    
+    <!-- Tailwind CSS für das Grundgerüst -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- MathJax für die Darstellung mathematischer Formeln -->
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            },
-            svg: {
-                fontCache: 'global'
-            }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- FontAwesome für Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Konfiguration für Dark Mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        ddrRed: '#d32f2f',
+                        ddrGold: '#fbc02d',
+                        brandBlue: '#2563eb',
+                        brandDark: '#0f172a'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- BENUTZERDEFINIERTES CSS -->
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        /* Styling für die aufklappbaren Beispiele */
-        details {
-            transition: all 0.3s ease;
-        }
-        summary {
-            cursor: pointer;
-            list-style: none; /* Hide default arrow */
-        }
-        summary::-webkit-details-marker {
+        /* Sanftes Scrollen und allgemeines Setup */
+        html { scroll-behavior: smooth; }
+        body { transition: background-color 0.3s, color 0.3s; }
+
+        /* Verstecken der Sections für Single-Page-App Feeling */
+        .content-section {
             display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+            opacity: 0;
+            transform: translateY(15px);
         }
-        .math-block {
-            overflow-x: auto; /* Verhindert das Abschneiden langer Formeln auf Handys */
-            padding-bottom: 0.5rem;
+        .content-section.active { display: block; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- Interaktive Lernkarten (Flip Cards) --- */
+        .flip-card {
+            background-color: transparent;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .flip-card-front {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #cbd5e1;
+        }
+        .dark .flip-card-front {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #334155;
+        }
+        .flip-card-back {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .dark .flip-card-back {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+        }
+
+        /* Custom Checkbox Design */
+        .custom-checkbox input:checked + div {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        .custom-checkbox input:checked + div svg {
+            display: block;
+        }
+
+        /* Timeline Design */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 4px;
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .dark .timeline-container::before { background: #475569; }
+        .timeline-dot {
+            width: 44px;
+            height: 44px;
+            left: 0;
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 0 4px white;
+        }
+        .dark .timeline-dot { box-shadow: 0 0 0 4px #1e293b; }
+
+        /* Highlight Text Animation */
+        .method-highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 30%;
+            background-position: 0 88%;
+            transition: background-size 0.25s ease-in;
+            font-weight: 600;
+        }
+        .dark .method-highlight {
+            background: linear-gradient(120deg, #854d0e 0%, #854d0e 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 30%;
+            background-position: 0 88%;
+        }
+        .method-highlight:hover { background-size: 100% 100%; cursor: pointer; color: #000; }
+        .dark .method-highlight:hover { color: #fff; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200">
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center font-bold text-xl text-indigo-600">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
-                    Analysis Vorbereitung
+    <!-- Top Navigation & Progress -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-brandDark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="bg-brandBlue text-white p-2 rounded-lg">
+                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight">Klausur<span class="text-brandBlue">Master</span></span>
                 </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#funktionen" class="text-slate-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">1. Funktionen</a>
-                    <a href="#ableitungen" class="text-slate-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">2. Ableitungen</a>
-                    <a href="#kurvendiskussion" class="text-slate-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">3. Kurvendiskussion</a>
+                
+                <div class="flex items-center gap-6">
+                    <!-- Progress Bar -->
+                    <div class="hidden md:flex flex-col items-end">
+                        <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" id="progress-text">Lernfortschritt: 0%</span>
+                        <div class="w-48 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <i class="fa-solid fa-moon text-xl text-slate-600 dark:text-slate-300" id="theme-icon"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
-    <header class="bg-indigo-600 text-white py-16">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">Klausur Nr. 3: Masterclass</h1>
-            <p class="mt-4 text-xl text-indigo-100 max-w-2xl mx-auto">Dein ausführlicher, interaktiver Lernzettel für ganzrationale Funktionen, Ableitungsregeln und die komplette Kurvendiskussion.</p>
-        </div>
-    </header>
-
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
-
-        <!-- Sektion 1: Funktionen -->
-        <section id="funktionen" class="scroll-mt-24">
-            <div class="border-b-2 border-indigo-200 pb-4 mb-8">
-                <h2 class="text-3xl font-bold text-slate-900 flex items-center">
-                    <span class="bg-indigo-100 text-indigo-700 rounded-full w-10 h-10 inline-flex items-center justify-center mr-4 text-xl">1</span>
-                    (Ganzrationale) Funktionen
-                </h2>
-                <p class="text-slate-600 mt-2">Die Grundlagen zur Untersuchung des Funktionsgraphen $f(x)$.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- y-Achse & Nullstellen -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-xl font-semibold text-slate-800 mb-4 text-indigo-600">Schnittpunkte mit den Achsen</h3>
-                    
-                    <h4 class="font-semibold mt-4">Schnittpunkt mit der y-Achse ($S_y$)</h4>
-                    <p class="text-sm text-slate-600 mb-2">Hier schneidet der Graph die vertikale Achse.</p>
-                    <ul class="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-700">
-                        <li><strong>Ansatz:</strong> Setze für jedes $x$ in der Funktion eine $0$ ein.</li>
-                        <li><strong>Rechnung:</strong> Berechne $f(0)$.</li>
-                    </ul>
-                    <details class="bg-slate-50 rounded-lg border border-slate-200 p-3 mb-6">
-                        <summary class="font-medium text-indigo-600 text-sm flex justify-between items-center">
-                            Beispiel anzeigen
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </summary>
-                        <div class="mt-3 text-sm text-slate-700 border-t border-slate-200 pt-2 math-block">
-                            $f(x) = 2x^3 - 4x^2 + 5$ <br>
-                            $f(0) = 2(0)^3 - 4(0)^2 + 5 = 5$ <br>
-                            $\Rightarrow S_y(0 | 5)$
-                        </div>
-                    </details>
-
-                    <h4 class="font-semibold mt-4">Nullstellen ($N$)</h4>
-                    <p class="text-sm text-slate-600 mb-2">Hier schneidet der Graph die x-Achse (Höhe y=0).</p>
-                    <ul class="list-disc pl-5 text-sm space-y-1 mb-4 text-slate-700">
-                        <li><strong>Ansatz:</strong> Setze die komplette Funktion gleich null: $f(x) = 0$.</li>
-                    </ul>
-                    
-                    <div class="space-y-3 mt-4">
-                        <div class="bg-amber-50 border-l-4 border-amber-400 p-3 text-sm text-slate-800">
-                            <strong>Ohne Taschenrechner:</strong><br>
-                            1. <em>Ausklammern:</em> Wenn kein absolutes Glied (Zahl ohne x) existiert.<br>
-                            2. <em>pq-Formel:</em> Bei $x^2 + px + q = 0$.<br>
-                            3. <em>Substitution:</em> Bei Formaten wie $ax^4 + bx^2 + c = 0$ (Setze $z = x^2$).
-                        </div>
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-3 text-sm text-slate-800 shadow-sm">
-                            <strong>Mit dem Casio fx-991DEX:</strong><br>
-                            1. <code>MENU</code> $\rightarrow$ <code>A</code> (Gleichung/Funkt.) $\rightarrow$ <code>2</code> (Polynom-Gleichung).<br>
-                            2. Grad der Funktion wählen (z.B. 3 für $x^3$).<br>
-                            3. Vorfaktoren (Koeffizienten) eingeben und mit <code>=</code> die Nullstellen ablesen.<br>
-                            <em>Achtung: Werte mit einem "i" am Ende sind imaginär und für dich keine Nullstellen!</em>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Symmetrie, Unendliches & Skizzieren -->
-                <div class="space-y-8">
-                    <!-- Symmetrie -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="text-xl font-semibold text-slate-800 mb-4 text-indigo-600">Symmetrie</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-semibold text-sm">Achsensymmetrie zur y-Achse</h4>
-                                <p class="text-sm text-slate-600">Bedingung: $f(-x) = f(x)$</p>
-                                <p class="text-sm text-slate-700 mt-1 bg-green-50 p-2 rounded border border-green-100"><strong>Schnelltest:</strong> Die Funktion hat <em>nur gerade</em> Exponenten (z.B. $x^4, x^2$, Konstanten).<br>Beispiel: $f(x) = 3x^4 - 2x^2 + 7$</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm">Punktsymmetrie zum Ursprung</h4>
-                                <p class="text-sm text-slate-600">Bedingung: $f(-x) = -f(x)$</p>
-                                <p class="text-sm text-slate-700 mt-1 bg-green-50 p-2 rounded border border-green-100"><strong>Schnelltest:</strong> Die Funktion hat <em>nur ungerade</em> Exponenten (z.B. $x^5, x^3, x^1$).<br>Beispiel: $f(x) = x^3 - 4x$</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Verhalten im Unendlichen -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="text-xl font-semibold text-slate-800 mb-4 text-indigo-600">Verhalten im Unendlichen</h3>
-                        <p class="text-sm text-slate-700 mb-3">Schaue dir nur den Summanden mit dem <strong>höchsten Exponenten</strong> an. Er bestimmt den Verlauf "ganz links" und "ganz rechts".</p>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-center text-sm">
-                            <div class="bg-slate-50 p-2 rounded border border-slate-200">
-                                <span class="block font-bold mb-1">$+x^{\text{gerade}}$</span>
-                                <span class="text-slate-600 text-xs">(z.B. $+2x^2$)</span><br>
-                                $\nwarrow \dots \nearrow$ <br>
-                                <span class="text-xs">Von $+\infty$ nach $+\infty$</span>
-                            </div>
-                            <div class="bg-slate-50 p-2 rounded border border-slate-200">
-                                <span class="block font-bold mb-1">$-x^{\text{gerade}}$</span>
-                                <span class="text-slate-600 text-xs">(z.B. $-3x^4$)</span><br>
-                                $\swarrow \dots \searrow$ <br>
-                                <span class="text-xs">Von $-\infty$ nach $-\infty$</span>
-                            </div>
-                            <div class="bg-slate-50 p-2 rounded border border-slate-200">
-                                <span class="block font-bold mb-1">$+x^{\text{ungerade}}$</span>
-                                <span class="text-slate-600 text-xs">(z.B. $+x^3$)</span><br>
-                                $\swarrow \dots \nearrow$ <br>
-                                <span class="text-xs">Von $-\infty$ nach $+\infty$</span>
-                            </div>
-                            <div class="bg-slate-50 p-2 rounded border border-slate-200">
-                                <span class="block font-bold mb-1">$-x^{\text{ungerade}}$</span>
-                                <span class="text-slate-600 text-xs">(z.B. $-2x^3$)</span><br>
-                                $\nwarrow \dots \searrow$ <br>
-                                <span class="text-xs">Von $+\infty$ nach $-\infty$</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Graphen skizzieren (NEU) -->
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-indigo-200 bg-indigo-50/50">
-                        <h3 class="text-xl font-semibold text-indigo-900 mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                            Graphen skizzieren
-                        </h3>
-                        <p class="text-sm text-slate-700 mb-3">So zeichnest du einen Graphen anhand deiner berechneten Punkte fehlerfrei:</p>
-                        <ol class="list-decimal pl-5 text-sm space-y-2 text-slate-800">
-                            <li><strong>Punkte eintragen:</strong> Markiere den y-Achsenabschnitt, alle Nullstellen, Hoch-, Tief- und Wendepunkte als kleine Kreuze.</li>
-                            <li><strong>Unendliches markieren:</strong> Zeichne kleine Pfeile an den linken und rechten Rand deines Koordinatensystems (wie beim "Verhalten im Unendlichen" bestimmt).</li>
-                            <li><strong>Verbinden:</strong> Ziehe eine <em>geschwungene</em> Linie durch die Punkte. Beachte, dass es an Hoch-/Tiefpunkten eine weiche Kurve (keine Spitze!) gibt.</li>
-                        </ol>
-                    </div>
-
-                    <!-- Casio Wertetabelle -->
-                    <div class="bg-slate-800 p-6 rounded-2xl shadow-md border border-slate-700 text-slate-200 relative overflow-hidden">
-                        <div class="absolute -right-4 -top-4 opacity-10">
-                            <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-semibold text-white mb-3 flex items-center relative z-10">
-                            Casio fx-991DEX: Wertetabelle
-                        </h3>
-                        <p class="text-sm mb-4 text-slate-300 relative z-10">Tipp aus der Checkliste: Bei Unsicherheiten beim Graphen skizzieren immer eine Wertetabelle nutzen!</p>
-                        <ol class="list-decimal pl-5 text-sm space-y-2 text-slate-300 font-mono relative z-10">
-                            <li><code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">MENU</code> $\rightarrow$ <code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">9</code> (Tabelle)</li>
-                            <li>Funktion $f(x)$ eintippen.</li>
-                            <li>$g(x)$ überspringen (<code class="bg-slate-700 px-1.5 py-0.5 rounded text-white shadow-sm border border-slate-600">=</code> drücken).</li>
-                            <li><strong>Start</strong>, <strong>Ende</strong> und <strong>Schritt</strong> (Inkrement) festlegen. <em>(Die berechneten Werte als zusätzliche Punkte in deine Skizze eintragen!)</em></li>
-                        </ol>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Sektion 2: Ableitungen -->
-        <section id="ableitungen" class="scroll-mt-24">
-            <div class="border-b-2 border-emerald-200 pb-4 mb-8">
-                <h2 class="text-3xl font-bold text-slate-900 flex items-center">
-                    <span class="bg-emerald-100 text-emerald-700 rounded-full w-10 h-10 inline-flex items-center justify-center mr-4 text-xl">2</span>
-                    Ableitungsfunktion
-                </h2>
-                <p class="text-slate-600 mt-2">Die Ableitung $f'(x)$ beschreibt das Steigungsverhalten der Originalfunktion $f(x)$. Geometrische Bedeutung: <strong>$f'(x)$ entspricht der Steigung der Tangente an dieser Stelle.</strong></p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <!-- Ableitungsregeln -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-xl font-semibold text-slate-800 mb-4 text-emerald-600">Ableitungsregeln</h3>
-                    
-                    <div class="space-y-4">
-                        <div class="border-l-4 border-emerald-400 pl-4 py-1">
-                            <h4 class="font-bold text-sm">Potenzregel</h4>
-                            <p class="text-sm text-slate-600 math-block">$f(x) = x^n \rightarrow f'(x) = n \cdot x^{n-1}$</p>
-                            <p class="text-xs text-slate-500 mt-1">Bsp: $x^3 \rightarrow 3x^2$</p>
-                        </div>
-                        <div class="border-l-4 border-emerald-400 pl-4 py-1">
-                            <h4 class="font-bold text-sm">Faktorregel</h4>
-                            <p class="text-sm text-slate-600 math-block">$f(x) = c \cdot x^n \rightarrow f'(x) = c \cdot n \cdot x^{n-1}$</p>
-                            <p class="text-xs text-slate-500 mt-1">Bsp: $4x^3 \rightarrow 12x^2$</p>
-                        </div>
-                        <div class="border-l-4 border-emerald-400 pl-4 py-1">
-                            <h4 class="font-bold text-sm">Summenregel</h4>
-                            <p class="text-sm text-slate-600">Summanden werden einzeln abgeleitet. Konstante Zahlen ohne $x$ fallen weg!</p>
-                            <p class="text-xs text-slate-500 mt-1">Bsp: $2x^2 + 5x - 7 \rightarrow 4x + 5$</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- NEW Regel -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-xl font-semibold text-slate-800 mb-4 text-emerald-600">Die goldene "NEW"-Regel</h3>
-                    <p class="text-sm text-slate-700 mb-4">Wichtig für das graphische Ableiten und Zuordnungsaufgaben (Graph $f$ zu Graph $f'$).</p>
-                    
-                    <div class="bg-emerald-50 rounded-lg p-4 font-mono text-sm text-center mb-4 border border-emerald-100 shadow-inner">
-                        <div class="grid grid-cols-4 gap-2">
-                            <div>$f(x)$</div>
-                            <div class="text-emerald-700 font-bold">N</div>
-                            <div class="text-emerald-700 font-bold">E</div>
-                            <div class="text-emerald-700 font-bold">W</div>
-                            
-                            <div>$f'(x)$</div>
-                            <div></div>
-                            <div class="text-emerald-700 font-bold">N</div>
-                            <div class="text-emerald-700 font-bold">E</div>
-                            
-                            <div>$f''(x)$</div>
-                            <div></div>
-                            <div></div>
-                            <div class="text-emerald-700 font-bold">N</div>
-                        </div>
-                    </div>
-
-                    <ul class="list-disc pl-5 text-sm space-y-2 text-slate-700">
-                        <li>Hat $f(x)$ einen <strong>Extrempunkt</strong> (H/T), hat $f'(x)$ dort eine <strong>Nullstelle</strong>.</li>
-                        <li>Hat $f(x)$ einen <strong>Wendepunkt</strong>, hat $f'(x)$ dort einen <strong>Extrempunkt</strong>.</li>
-                        <li>Graph $f$ <strong>steigt</strong> $\rightarrow$ $f'$ verläuft im <strong>Positiven</strong> (über der x-Achse).</li>
-                        <li>Graph $f$ <strong>fällt</strong> $\rightarrow$ $f'$ verläuft im <strong>Negativen</strong> (unter der x-Achse).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Tangentengleichung (ERWEITERT) -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-xl font-semibold text-slate-800 mb-2 text-emerald-600 flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                    Tangentengleichung aufstellen
-                </h3>
-                <p class="text-sm text-slate-700 mb-6">Eine Tangente ist eine Gerade: <strong>$t(x) = m \cdot x + b$</strong>. Die Checkliste verlangt explizit BEIDE Fälle:</p>
+    <!-- Main Layout -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="lg:w-1/4 flex-shrink-0">
+            <div class="sticky top-24 space-y-2">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 px-3">Dein Lehrplan</h3>
                 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Fall 1: Stelle x0 gegeben -->
-                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
-                        <h4 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-2">Fall 1: Stelle $x_0$ ist gegeben</h4>
-                        <div class="space-y-3">
-                            <div class="flex items-start">
-                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">1</span>
-                                <p class="text-sm text-slate-700"><strong>y berechnen:</strong> Setze $x_0$ in $f(x)$ ein. $\rightarrow y = f(x_0)$.</p>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">2</span>
-                                <div class="text-sm text-slate-700 w-full">
-                                    <strong>m berechnen:</strong> Bilde $f'(x)$ und setze $x_0$ ein. $\rightarrow m = f'(x_0)$.
-                                    <div class="mt-2 bg-blue-50 text-blue-900 text-xs p-2 rounded border border-blue-200 shadow-sm">
-                                        <strong>Casio-Geheimwaffe:</strong> <code class="font-bold bg-white px-1 border rounded">SHIFT</code> + <code class="font-bold bg-white px-1 border rounded">$\int$</code>. $f(x)$ und $x_0$ eingeben $\rightarrow$ Steigung $m$ wird sofort berechnet!
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">3</span>
-                                <p class="text-sm text-slate-700"><strong>b berechnen:</strong> Setze $x_0$, $y$ und $m$ in $y = m \cdot x + b$ ein und löse nach $b$ auf.</p>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-slate-200 text-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">4</span>
-                                <p class="text-sm text-slate-700"><strong>Notieren:</strong> $t(x) = m \cdot x + b$</p>
-                            </div>
-                        </div>
-                    </div>
+                <button onclick="switchTab('system')" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-brandBlue text-white shadow-md shadow-blue-500/20" data-target="system">
+                    <i class="fa-solid fa-landmark w-5"></i>
+                    <span class="font-semibold text-left">1. DDR System & Ideologie</span>
+                </button>
+                
+                <button onclick="switchTab('aufstand')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="aufstand">
+                    <i class="fa-solid fa-fire w-5"></i>
+                    <span class="font-semibold text-left">2. 17. Juni 1953</span>
+                </button>
+                
+                <button onclick="switchTab('mauerbau')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="mauerbau">
+                    <i class="fa-solid fa-brick w-5"></i>
+                    <span class="font-semibold text-left">3. Der Mauerbau</span>
+                </button>
+                
+                <button onclick="switchTab('methodik')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="methodik">
+                    <i class="fa-solid fa-microscope w-5"></i>
+                    <span class="font-semibold text-left">4. Methodik & Quellen</span>
+                </button>
 
-                    <!-- Fall 2: Steigung m gegeben (NEU) -->
-                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wide">Oft in Klausuren</div>
-                        <h4 class="font-bold text-emerald-900 mb-3 border-b border-emerald-200 pb-2">Fall 2: Steigung $m$ ist gegeben</h4>
-                        <div class="space-y-3">
-                            <div class="flex items-start">
-                                <span class="bg-emerald-200 text-emerald-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">1</span>
-                                <div class="text-sm text-slate-800 w-full">
-                                    <strong>$x_0$ ausrechnen:</strong> Setze die Ableitung gleich der Steigung: <strong>$f'(x) = m$</strong>. Löse diese Gleichung (ggf. mit Casio <code>A</code> -> <code>2</code>), um die Berührstelle $x_0$ zu finden.
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-emerald-200 text-emerald-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">2</span>
-                                <p class="text-sm text-slate-800"><strong>y berechnen:</strong> Setze das gefundene $x_0$ in $f(x)$ ein. $\rightarrow y = f(x_0)$.</p>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-emerald-200 text-emerald-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 mt-0.5 shrink-0">3</span>
-                                <p class="text-sm text-slate-800"><strong>b berechnen:</strong> Wie in Fall 1 in $y = mx + b$ einsetzen.</p>
-                            </div>
-                        </div>
+                <!-- Checkliste aus dem PDF -->
+                <div class="mt-8 bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-brandBlue"></i> Checkliste
+                    </h3>
+                    <div class="space-y-3" id="checklist-container">
+                        <!-- Generiert via JS -->
                     </div>
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <!-- Sektion 3: Kurvendiskussion -->
-        <section id="kurvendiskussion" class="scroll-mt-24">
-            <div class="border-b-2 border-rose-200 pb-4 mb-8">
-                <h2 class="text-3xl font-bold text-slate-900 flex items-center">
-                    <span class="bg-rose-100 text-rose-700 rounded-full w-10 h-10 inline-flex items-center justify-center mr-4 text-xl">3</span>
-                    Besondere Punkte (Kurvendiskussion)
-                </h2>
-                <p class="text-slate-600 mt-2">Das Herzstück der Analysis. Hier berechnen wir Hoch-, Tief- und Wendepunkte.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Extrempunkte -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-rose-100 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">Schwerpunkt</div>
-                    <h3 class="text-2xl font-semibold text-slate-800 mb-2 text-rose-600">Extrempunkte</h3>
-                    <p class="text-sm text-slate-500 mb-6">Hochpunkte (HP) und Tiefpunkte (TP)</p>
-
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-sm text-slate-800 mb-1">1. Notwendige Bedingung: $f'(x) = 0$</h4>
-                            <p class="text-sm text-slate-600">Setze die 1. Ableitung null, da an Extrempunkten die Steigung immer 0 ist (waagerechte Tangente). Berechne so die möglichen x-Werte ($x_E$).</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-sm text-slate-800 mb-1">2. Hinreichende Bedingung: $f''(x_E) \neq 0$</h4>
-                            <p class="text-sm text-slate-600">Setze die gefundenen $x_E$ in die 2. Ableitung ein, um die Krümmung zu prüfen:</p>
-                            <ul class="mt-2 text-sm text-slate-700 space-y-1 pl-4 border-l-2 border-rose-300">
-                                <li>$f''(x_E) < 0 \rightarrow$ <strong>Hochpunkt</strong> <span class="text-xs text-slate-400">(Rechtskrümmung)</span></li>
-                                <li>$f''(x_E) > 0 \rightarrow$ <strong>Tiefpunkt</strong> <span class="text-xs text-slate-400">(Linkskrümmung)</span></li>
-                                <li>$f''(x_E) = 0 \rightarrow$ <em>Vorzeichenwechsel-Kriterium (VZW) anwenden! Wenn kein VZW bei f' vorliegt $\rightarrow$ Sattelpunkt.</em></li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-rose-50 p-3 rounded-lg border border-rose-200 text-rose-800 text-sm">
-                            <h4 class="font-bold mb-1">3. y-Koordinate berechnen!</h4>
-                            <p>Vergiss nicht: Um einen vollen PUNKt anzugeben, musst du $x_E$ wieder in die <strong>Ausgangsfunktion $f(x)$</strong> einsetzen!</p>
-                        </div>
-
-                        <div class="bg-slate-800 text-slate-200 p-4 rounded-lg mt-4 text-sm">
-                            <strong class="text-rose-400">Sachaufgabe / Bedeutung:</strong><br>
-                            Extrempunkte sind in Sachaufgaben immer nach Begriffen wie <em>"höchster Wasserstand"</em>, <em>"minimaler Gewinn"</em> oder <em>"maximale Höhe"</em> gefragt.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Wendepunkte (ERWEITERT UM KRÜMMUNG) -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-rose-100 relative overflow-hidden">
-                    <h3 class="text-2xl font-semibold text-slate-800 mb-2 text-rose-600">Wendepunkte</h3>
-                    <p class="text-sm text-slate-500 mb-6">Punkte des stärksten Anstiegs oder stärksten Abfalls.</p>
-
-                    <div class="space-y-4">
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-sm text-slate-800 mb-1">1. Notwendige Bedingung: $f''(x) = 0$</h4>
-                            <p class="text-sm text-slate-600">Im Wendepunkt wechselt die Krümmung (Übergang Rechts- in Linkskrümmung oder umgekehrt). Daher ist $f''(x)$ dort null. Berechne die x-Werte ($x_W$).</p>
-                        </div>
-                        
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <h4 class="font-bold text-sm text-slate-800 mb-1">2. Hinreichende Bedingung: $f'''(x_W) \neq 0$</h4>
-                            <p class="text-sm text-slate-600">Setze die gefundenen $x_W$ in die 3. Ableitung ein. Das Ergebnis zeigt dir auch die Art des Krümmungswechsels:</p>
-                            <ul class="mt-2 text-sm text-slate-700 space-y-1 pl-4 border-l-2 border-rose-300">
-                                <li>$f'''(x_W) > 0 \rightarrow$ <strong>Rechts-Links-Wendepunkt</strong> (Übergang von Rechtskrümmung in Linkskrümmung; minimales Gefälle).</li>
-                                <li>$f'''(x_W) < 0 \rightarrow$ <strong>Links-Rechts-Wendepunkt</strong> (Übergang von Linkskrümmung in Rechtskrümmung; maximale Steigung).</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-rose-50 p-3 rounded-lg border border-rose-200 text-rose-800 text-sm">
-                            <h4 class="font-bold mb-1">3. y-Koordinate berechnen!</h4>
-                            <p>Gefundene $x_W$ in die <strong>Ausgangsfunktion $f(x)$</strong> einsetzen, um $y_W$ zu erhalten.</p>
-                        </div>
-
-                        <div class="bg-slate-800 text-slate-200 p-4 rounded-lg mt-4 text-sm">
-                            <strong class="text-rose-400">Sachaufgabe / Bedeutung:</strong><br>
-                            Wendepunkte sucht man bei Begriffen wie <em>"Zeitpunkt des stärksten Wachstums"</em>, <em>"maximaler Anstieg"</em> oder <em>"steilster Abfall"</em>.
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Content Area -->
+        <main class="lg:w-3/4 min-h-[70vh]">
             
-            <!-- Zusammenfassung Ableitungsgraphen -->
-            <div class="mt-8 bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-2xl border border-indigo-100">
-                <h3 class="text-xl font-bold text-indigo-900 mb-3">Ablesen aus Ableitungsgraphen (Master-Tipp)</h3>
-                <p class="text-sm text-indigo-800 mb-4">Oft bekommst du in der Klausur nicht die Funktion $f(x)$, sondern nur den Graphen von $f'(x)$ gezeichnet und sollst Aussagen über $f(x)$ treffen.</p>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                        <div class="font-bold text-indigo-600 mb-2 border-b pb-2">Im Graphen von f'</div>
-                        <div class="text-sm">Nullstelle mit VZW<br>von (+) nach (-)</div>
-                        <div class="text-center my-2 font-bold text-slate-400">$\downarrow$ bedeutet $\downarrow$</div>
-                        <div class="font-bold text-slate-800 text-sm">Hochpunkt bei f</div>
-                    </div>
+            <!-- SECTION 1: System -->
+            <section id="system" class="content-section active bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Die Ideologie & das System der DDR</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-lg mb-8">Klicke auf die Karten, um die wichtigsten Fachbegriffe zu drehen und zu lernen.</p>
+
+                <!-- Flip Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                        <div class="font-bold text-indigo-600 mb-2 border-b pb-2">Im Graphen von f'</div>
-                        <div class="text-sm">Nullstelle mit VZW<br>von (-) nach (+)</div>
-                        <div class="text-center my-2 font-bold text-slate-400">$\downarrow$ bedeutet $\downarrow$</div>
-                        <div class="font-bold text-slate-800 text-sm">Tiefpunkt bei f</div>
+                    <!-- Card 1 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fa-solid fa-book-journal-whills text-4xl text-ddrRed mb-4"></i>
+                                <h3 class="text-2xl font-bold">Sozialismus &<br>Kommunismus</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                            </div>
+                            <div class="flip-card-back p-6">
+                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Die Ideologie</h3>
+                                <p class="text-sm">Ziel ist die klassenlose Gesellschaft ohne Ausbeutung. Privateigentum (Fabriken) wird verstaatlicht ("Volkseigentum"). Der Sozialismus ist die Vorstufe zum Kommunismus.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                        <div class="font-bold text-indigo-600 mb-2 border-b pb-2">Im Graphen von f'</div>
-                        <div class="text-sm">Berührpunkt an der<br>x-Achse (ohne VZW)</div>
-                        <div class="text-center my-2 font-bold text-slate-400">$\downarrow$ bedeutet $\downarrow$</div>
-                        <div class="font-bold text-slate-800 text-sm">Sattelpunkt bei f</div>
+                    <!-- Card 2 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fa-solid fa-users-gear text-4xl text-brandBlue mb-4"></i>
+                                <h3 class="text-2xl font-bold">Demokratischer<br>Zentralismus</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                            </div>
+                            <div class="flip-card-back p-6">
+                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Der Demokratiebegriff</h3>
+                                <p class="text-sm">Wahlen waren Scheinwahlen (Einheitslisten). Entscheidungen wurden ganz oben (Politbüro) getroffen und mussten von den unteren Ebenen bedingungslos ausgeführt werden. Keine echte Opposition.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                        <div class="font-bold text-indigo-600 mb-2 border-b pb-2">Im Graphen von f'</div>
-                        <div class="text-sm">Extrempunkt<br>(Hoch- oder Tiefpunkt)</div>
-                        <div class="text-center my-2 font-bold text-slate-400">$\downarrow$ bedeutet $\downarrow$</div>
-                        <div class="font-bold text-slate-800 text-sm">Wendepunkt bei f</div>
+                    <!-- Card 3 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fa-solid fa-building-shield text-4xl text-slate-800 dark:text-slate-400 mb-4"></i>
+                                <h3 class="text-2xl font-bold">SED & STASI</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                            </div>
+                            <div class="flip-card-back p-6">
+                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Staat & Überwachung</h3>
+                                <p class="text-sm"><strong>SED:</strong> Einheitspartei, hatte das absolute Machtmonopol ("Die Partei hat immer recht").<br><strong>Stasi (MfS):</strong> Geheimpolizei, "Schild und Schwert der Partei". Überwachte die Bürger mit tausenden Spitzeln (IM).</p>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Card 4 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fa-solid fa-chart-pie text-4xl text-green-600 mb-4"></i>
+                                <h3 class="text-2xl font-bold">Planwirtschaft</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                            </div>
+                            <div class="flip-card-back p-6 bg-green-700">
+                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Wirtschaftssystem</h3>
+                                <p class="text-sm">Der Staat plant zentral im Voraus (Fünfjahrespläne), was, wie viel und zu welchem Preis produziert wird. Betriebe sind Volkseigene Betriebe (VEB). Folge: Fehlende Flexibilität und chronische Mangelwirtschaft.</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+            </section>
 
-        </section>
+            <!-- SECTION 2: 17. Juni 1953 -->
+            <section id="aufstand" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-8">Arbeiteraufstand vom 17. Juni 1953</h1>
 
-    </main>
+                <!-- CSS Timeline -->
+                <div class="relative timeline-container pl-12 py-4 space-y-12">
+                    
+                    <!-- Punkt 1 -->
+                    <div class="relative">
+                        <div class="timeline-dot bg-slate-600 dark:bg-slate-700">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Die Ursachen (Langfristig)</h3>
+                        <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300">
+                            Der forcierte "Aufbau des Sozialismus" (beschlossen 1952) führte zu massiven Problemen: Versorgungsenpässe bei Lebensmitteln, Unterdrückung von Kirche & Mittelstand, Verhaftungen. Die Unzufriedenheit brodelte.
+                        </div>
+                    </div>
 
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
-        <p class="text-sm">Viel Erfolg bei deiner Analysis-Klausur am Freitag! Du schaffst das. 🚀</p>
-    </footer>
+                    <!-- Punkt 2 -->
+                    <div class="relative">
+                        <div class="timeline-dot bg-orange-500">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Der Anlass (Der Funke)</h3>
+                        <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800 text-slate-700 dark:text-slate-300">
+                            Die SED-Führung beschloss eine <span class="method-highlight">Erhöhung der Arbeitsnormen um 10 %</span>. Das hieß: 10% mehr arbeiten für das gleiche Geld. Für die Arbeiter war dies eine faktische Lohnkürzung und untragbar.
+                        </div>
+                    </div>
 
-</body>
-</html>
+                    <!-- Punkt 3 -->
+                    <div class="relative">
+                        <div class="timeline-dot bg-brandBlue">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Der Verlauf</h3>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-slate-700 dark:text-slate-300">
+                            Am 16. Juni begannen Berliner Bauarbeiter der Stalinallee einen Streik. Am <strong>17. Juni 1953</strong> weitete sich dies zu einem landesweiten Volksaufstand aus. Aus sozialen Forderungen wurden politische: Rücktritt der SED, freie Wahlen, Einheit!
+                        </div>
+                    </div>
+
+                    <!-- Punkt 4 -->
+                    <div class="relative">
+                        <div class="timeline-dot bg-ddrRed">
+                            <i class="fa-solid fa-tank-water"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Ergebnis & Folgen</h3>
+                        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300">
+                            Die DDR-Regierung floh zu den Sowjets. Die Sowjetunion verhängte den Ausnahmezustand und walzte den Aufstand mit <strong>sowjetischen Panzern</strong> blutig nieder. Dutzende Tote. Folge: Die Stasi wurde massiv ausgebaut, das Volk war desillusioniert.
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 3: Mauerbau -->
+            <section id="mauerbau" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-8">13. August 1961: Der Mauerbau</h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                   
