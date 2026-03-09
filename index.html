@@ -1,372 +1,568 @@
-<!DOCTYPE html>
-<html lang="de" class="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klausur-Masterclass: Geteiltes Deutschland</title>
-    
-    <!-- Tailwind CSS für das Grundgerüst -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome für Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+                   <!DOCTYPE html>
+                   <html lang="de" class="light">
+                   <head>
+                       <meta charset="UTF-8">
+                       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                       <title>Klausur-Masterclass: Geteiltes Deutschland</title>
 
-    <!-- Tailwind Konfiguration für Dark Mode -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        ddrRed: '#d32f2f',
-                        ddrGold: '#fbc02d',
-                        brandBlue: '#2563eb',
-                        brandDark: '#0f172a'
-                    }
-                }
-            }
-        }
-    </script>
+                       <!-- Tailwind CSS für das Grundgerüst -->
+                       <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- BENUTZERDEFINIERTES CSS -->
-    <style>
-        /* Sanftes Scrollen und allgemeines Setup */
-        html { scroll-behavior: smooth; }
-        body { transition: background-color 0.3s, color 0.3s; }
+                       <!-- FontAwesome für Icons -->
+                       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-        /* Verstecken der Sections für Single-Page-App Feeling */
-        .content-section {
-            display: none;
-            animation: fadeIn 0.4s ease-out forwards;
-            opacity: 0;
-            transform: translateY(15px);
-        }
-        .content-section.active { display: block; }
+                       <!-- Google Fonts -->
+                       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
+                       <!-- Tailwind Konfiguration für Dark Mode -->
+                       <script>
+                           tailwind.config = {
+                               darkMode: 'class',
+                               theme: {
+                                   extend: {
+                                       fontFamily: { sans: ['Inter', 'sans-serif'] },
+                                       colors: {
+                                           ddrRed: '#d32f2f',
+                                           ddrGold: '#fbc02d',
+                                           brandBlue: '#2563eb',
+                                           brandDark: '#0f172a'
+                                       }
+                                   }
+                               }
+                           }
+                       </script>
 
-        /* --- Interaktive Lernkarten (Flip Cards) --- */
-        .flip-card {
-            background-color: transparent;
-            height: 250px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            border-radius: 1rem;
-        }
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem;
-        }
-        .flip-card-front {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            border: 2px solid #cbd5e1;
-        }
-        .dark .flip-card-front {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 2px solid #334155;
-        }
-        .flip-card-back {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            color: white;
-            transform: rotateY(180deg);
-        }
-        .dark .flip-card-back {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
-        }
+                       <!-- BENUTZERDEFINIERTES CSS -->
+                       <style>
+                           /* Sanftes Scrollen und allgemeines Setup */
+                           html { scroll-behavior: smooth; }
+                           body { transition: background-color 0.3s, color 0.3s; }
 
-        /* Custom Checkbox Design */
-        .custom-checkbox input:checked + div {
-            background-color: #10b981;
-            border-color: #10b981;
-        }
-        .custom-checkbox input:checked + div svg {
-            display: block;
-        }
+                           /* Verstecken der Sections für Single-Page-App Feeling */
+                           .content-section {
+                               display: none;
+                               animation: fadeIn 0.4s ease-out forwards;
+                               opacity: 0;
+                               transform: translateY(15px);
+                           }
+                           .content-section.active { display: block; }
 
-        /* Timeline Design */
-        .timeline-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 20px;
-            width: 4px;
-            background: #cbd5e1;
-            border-radius: 2px;
-        }
-        .dark .timeline-container::before { background: #475569; }
-        .timeline-dot {
-            width: 44px;
-            height: 44px;
-            left: 0;
-            position: absolute;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 0 0 4px white;
-        }
-        .dark .timeline-dot { box-shadow: 0 0 0 4px #1e293b; }
+                           @keyframes fadeIn {
+                               to { opacity: 1; transform: translateY(0); }
+                           }
 
-        /* Highlight Text Animation */
-        .method-highlight {
-            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 30%;
-            background-position: 0 88%;
-            transition: background-size 0.25s ease-in;
-            font-weight: 600;
-        }
-        .dark .method-highlight {
-            background: linear-gradient(120deg, #854d0e 0%, #854d0e 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 30%;
-            background-position: 0 88%;
-        }
-        .method-highlight:hover { background-size: 100% 100%; cursor: pointer; color: #000; }
-        .dark .method-highlight:hover { color: #fff; }
+                           /* --- Interaktive Lernkarten (Flip Cards) --- */
+                           .flip-card {
+                               background-color: transparent;
+                               height: 250px;
+                               perspective: 1000px;
+                               cursor: pointer;
+                           }
+                           .flip-card-inner {
+                               position: relative;
+                               width: 100%;
+                               height: 100%;
+                               text-align: center;
+                               transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+                               transform-style: preserve-3d;
+                               box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+                               border-radius: 1rem;
+                           }
+                           .flip-card.flipped .flip-card-inner {
+                               transform: rotateY(180deg);
+                           }
+                           .flip-card-front, .flip-card-back {
+                               position: absolute;
+                               width: 100%;
+                               height: 100%;
+                               -webkit-backface-visibility: hidden;
+                               backface-visibility: hidden;
+                               border-radius: 1rem;
+                               display: flex;
+                               flex-direction: column;
+                               justify-content: center;
+                               align-items: center;
+                               padding: 1.5rem;
+                           }
+                           .flip-card-front {
+                               background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                               border: 2px solid #cbd5e1;
+                           }
+                           .dark .flip-card-front {
+                               background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+                               border: 2px solid #334155;
+                           }
+                           .flip-card-back {
+                               background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+                               color: white;
+                               transform: rotateY(180deg);
+                           }
+                           .dark .flip-card-back {
+                               background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+                           }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        .dark ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+                           /* Custom Checkbox Design */
+                           .custom-checkbox input:checked + div {
+                               background-color: #10b981;
+                               border-color: #10b981;
+                           }
+                           .custom-checkbox input:checked + div svg {
+                               display: block;
+                           }
 
-    <!-- Top Navigation & Progress -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-brandDark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-3">
-                    <div class="bg-brandBlue text-white p-2 rounded-lg">
-                        <i class="fa-solid fa-graduation-cap text-xl"></i>
-                    </div>
-                    <span class="font-bold text-xl tracking-tight">Klausur<span class="text-brandBlue">Master</span></span>
-                </div>
-                
-                <div class="flex items-center gap-6">
-                    <!-- Progress Bar -->
-                    <div class="hidden md:flex flex-col items-end">
-                        <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" id="progress-text">Lernfortschritt: 0%</span>
-                        <div class="w-48 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                        <i class="fa-solid fa-moon text-xl text-slate-600 dark:text-slate-300" id="theme-icon"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+                           /* Timeline Design */
+                           .timeline-container::before {
+                               content: '';
+                               position: absolute;
+                               top: 0;
+                               bottom: 0;
+                               left: 20px;
+                               width: 4px;
+                               background: #cbd5e1;
+                               border-radius: 2px;
+                           }
+                           .dark .timeline-container::before { background: #475569; }
+                           .timeline-dot {
+                               width: 44px;
+                               height: 44px;
+                               left: 0;
+                               position: absolute;
+                               border-radius: 50%;
+                               display: flex;
+                               align-items: center;
+                               justify-content: center;
+                               color: white;
+                               font-weight: bold;
+                               box-shadow: 0 0 0 4px white;
+                           }
+                           .dark .timeline-dot { box-shadow: 0 0 0 4px #1e293b; }
 
-    <!-- Main Layout -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="lg:w-1/4 flex-shrink-0">
-            <div class="sticky top-24 space-y-2">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 px-3">Dein Lehrplan</h3>
-                
-                <button onclick="switchTab('system')" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-brandBlue text-white shadow-md shadow-blue-500/20" data-target="system">
-                    <i class="fa-solid fa-landmark w-5"></i>
-                    <span class="font-semibold text-left">1. DDR System & Ideologie</span>
-                </button>
-                
-                <button onclick="switchTab('aufstand')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="aufstand">
-                    <i class="fa-solid fa-fire w-5"></i>
-                    <span class="font-semibold text-left">2. 17. Juni 1953</span>
-                </button>
-                
-                <button onclick="switchTab('mauerbau')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="mauerbau">
-                    <i class="fa-solid fa-brick w-5"></i>
-                    <span class="font-semibold text-left">3. Der Mauerbau</span>
-                </button>
-                
-                <button onclick="switchTab('methodik')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="methodik">
-                    <i class="fa-solid fa-microscope w-5"></i>
-                    <span class="font-semibold text-left">4. Methodik & Quellen</span>
-                </button>
+                           /* Highlight Text Animation */
+                           .method-highlight {
+                               background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+                               background-repeat: no-repeat;
+                               background-size: 100% 30%;
+                               background-position: 0 88%;
+                               transition: background-size 0.25s ease-in;
+                               font-weight: 600;
+                           }
+                           .dark .method-highlight {
+                               background: linear-gradient(120deg, #854d0e 0%, #854d0e 100%);
+                               background-repeat: no-repeat;
+                               background-size: 100% 30%;
+                               background-position: 0 88%;
+                           }
+                           .method-highlight:hover { background-size: 100% 100%; cursor: pointer; color: #000; }
+                           .dark .method-highlight:hover { color: #fff; }
 
-                <!-- Checkliste aus dem PDF -->
-                <div class="mt-8 bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700">
-                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-brandBlue"></i> Checkliste
-                    </h3>
-                    <div class="space-y-3" id="checklist-container">
-                        <!-- Generiert via JS -->
-                    </div>
-                </div>
-            </div>
-        </aside>
+                           /* Custom Scrollbar */
+                           ::-webkit-scrollbar { width: 8px; }
+                           ::-webkit-scrollbar-track { background: #f1f1f1; }
+                           .dark ::-webkit-scrollbar-track { background: #0f172a; }
+                           ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+                           ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+                       </style>
+                   </head>
+                   <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200">
 
-        <!-- Content Area -->
-        <main class="lg:w-3/4 min-h-[70vh]">
-            
-            <!-- SECTION 1: System -->
-            <section id="system" class="content-section active bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
-                <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
-                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Die Ideologie & das System der DDR</h1>
-                <p class="text-slate-500 dark:text-slate-400 text-lg mb-8">Klicke auf die Karten, um die wichtigsten Fachbegriffe zu drehen und zu lernen.</p>
+                       <!-- Top Navigation & Progress -->
+                       <nav class="sticky top-0 z-50 bg-white/80 dark:bg-brandDark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+                           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                               <div class="flex justify-between items-center h-16">
+                                   <div class="flex items-center gap-3">
+                                       <div class="bg-brandBlue text-white p-2 rounded-lg">
+                                           <i class="fa-solid fa-graduation-cap text-xl"></i>
+                                       </div>
+                                       <span class="font-bold text-xl tracking-tight">Klausur<span class="text-brandBlue">Master</span></span>
+                                   </div>
 
-                <!-- Flip Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    
-                    <!-- Card 1 -->
-                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <i class="fa-solid fa-book-journal-whills text-4xl text-ddrRed mb-4"></i>
-                                <h3 class="text-2xl font-bold">Sozialismus &<br>Kommunismus</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
-                            </div>
-                            <div class="flip-card-back p-6">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Die Ideologie</h3>
-                                <p class="text-sm">Ziel ist die klassenlose Gesellschaft ohne Ausbeutung. Privateigentum (Fabriken) wird verstaatlicht ("Volkseigentum"). Der Sozialismus ist die Vorstufe zum Kommunismus.</p>
-                            </div>
-                        </div>
-                    </div>
+                                   <div class="flex items-center gap-6">
+                                       <!-- Progress Bar -->
+                                       <div class="hidden md:flex flex-col items-end">
+                                           <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" id="progress-text">Lernfortschritt: 0%</span>
+                                           <div class="w-48 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                               <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0%"></div>
+                                           </div>
+                                       </div>
+                                       <!-- Theme Toggle -->
+                                       <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                           <i class="fa-solid fa-moon text-xl text-slate-600 dark:text-slate-300" id="theme-icon"></i>
+                                       </button>
+                                   </div>
+                               </div>
+                           </div>
+                       </nav>
 
-                    <!-- Card 2 -->
-                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <i class="fa-solid fa-users-gear text-4xl text-brandBlue mb-4"></i>
-                                <h3 class="text-2xl font-bold">Demokratischer<br>Zentralismus</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
-                            </div>
-                            <div class="flip-card-back p-6">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Der Demokratiebegriff</h3>
-                                <p class="text-sm">Wahlen waren Scheinwahlen (Einheitslisten). Entscheidungen wurden ganz oben (Politbüro) getroffen und mussten von den unteren Ebenen bedingungslos ausgeführt werden. Keine echte Opposition.</p>
-                            </div>
-                        </div>
-                    </div>
+                       <!-- Main Layout -->
+                       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
 
-                    <!-- Card 3 -->
-                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <i class="fa-solid fa-building-shield text-4xl text-slate-800 dark:text-slate-400 mb-4"></i>
-                                <h3 class="text-2xl font-bold">SED & STASI</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
-                            </div>
-                            <div class="flip-card-back p-6">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Staat & Überwachung</h3>
-                                <p class="text-sm"><strong>SED:</strong> Einheitspartei, hatte das absolute Machtmonopol ("Die Partei hat immer recht").<br><strong>Stasi (MfS):</strong> Geheimpolizei, "Schild und Schwert der Partei". Überwachte die Bürger mit tausenden Spitzeln (IM).</p>
-                            </div>
-                        </div>
-                    </div>
+                           <!-- Sidebar Navigation -->
+                           <aside class="lg:w-1/4 flex-shrink-0">
+                               <div class="sticky top-24 space-y-2">
+                                   <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 px-3">Dein Lehrplan</h3>
 
-                    <!-- Card 4 -->
-                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <i class="fa-solid fa-chart-pie text-4xl text-green-600 mb-4"></i>
-                                <h3 class="text-2xl font-bold">Planwirtschaft</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
-                            </div>
-                            <div class="flip-card-back p-6 bg-green-700">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Wirtschaftssystem</h3>
-                                <p class="text-sm">Der Staat plant zentral im Voraus (Fünfjahrespläne), was, wie viel und zu welchem Preis produziert wird. Betriebe sind Volkseigene Betriebe (VEB). Folge: Fehlende Flexibilität und chronische Mangelwirtschaft.</p>
-                            </div>
-                        </div>
-                    </div>
+                                   <button onclick="switchTab('system')" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-brandBlue text-white shadow-md shadow-blue-500/20" data-target="system">
+                                       <i class="fa-solid fa-landmark w-5"></i>
+                                       <span class="font-semibold text-left">1. DDR System & Ideologie</span>
+                                   </button>
 
-                </div>
-            </section>
+                                   <button onclick="switchTab('aufstand')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="aufstand">
+                                       <i class="fa-solid fa-fire w-5"></i>
+                                       <span class="font-semibold text-left">2. 17. Juni 1953</span>
+                                   </button>
 
-            <!-- SECTION 2: 17. Juni 1953 -->
-            <section id="aufstand" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
-                <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
-                <h1 class="text-3xl md:text-4xl font-extrabold mb-8">Arbeiteraufstand vom 17. Juni 1953</h1>
+                                   <button onclick="switchTab('mauerbau')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="mauerbau">
+                                       <i class="fa-solid fa-brick w-5"></i>
+                                       <span class="font-semibold text-left">3. Der Mauerbau</span>
+                                   </button>
 
-                <!-- CSS Timeline -->
-                <div class="relative timeline-container pl-12 py-4 space-y-12">
-                    
-                    <!-- Punkt 1 -->
-                    <div class="relative">
-                        <div class="timeline-dot bg-slate-600 dark:bg-slate-700">
-                            <i class="fa-solid fa-seedling"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Die Ursachen (Langfristig)</h3>
-                        <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300">
-                            Der forcierte "Aufbau des Sozialismus" (beschlossen 1952) führte zu massiven Problemen: Versorgungsenpässe bei Lebensmitteln, Unterdrückung von Kirche & Mittelstand, Verhaftungen. Die Unzufriedenheit brodelte.
-                        </div>
-                    </div>
+                                   <button onclick="switchTab('methodik')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="methodik">
+                                       <i class="fa-solid fa-microscope w-5"></i>
+                                       <span class="font-semibold text-left">4. Methodik & Quellen</span>
+                                   </button>
 
-                    <!-- Punkt 2 -->
-                    <div class="relative">
-                        <div class="timeline-dot bg-orange-500">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Der Anlass (Der Funke)</h3>
-                        <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800 text-slate-700 dark:text-slate-300">
-                            Die SED-Führung beschloss eine <span class="method-highlight">Erhöhung der Arbeitsnormen um 10 %</span>. Das hieß: 10% mehr arbeiten für das gleiche Geld. Für die Arbeiter war dies eine faktische Lohnkürzung und untragbar.
-                        </div>
-                    </div>
+                                   <!-- Checkliste aus dem PDF -->
+                                   <div class="mt-8 bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700">
+                                       <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                                           <i class="fa-solid fa-list-check text-brandBlue"></i> Checkliste
+                                       </h3>
+                                       <div class="space-y-3" id="checklist-container">
+                                           <!-- Generiert via JS -->
+                                       </div>
+                                   </div>
+                               </div>
+                           </aside>
 
-                    <!-- Punkt 3 -->
-                    <div class="relative">
-                        <div class="timeline-dot bg-brandBlue">
-                            <i class="fa-solid fa-bullhorn"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Der Verlauf</h3>
-                        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-slate-700 dark:text-slate-300">
-                            Am 16. Juni begannen Berliner Bauarbeiter der Stalinallee einen Streik. Am <strong>17. Juni 1953</strong> weitete sich dies zu einem landesweiten Volksaufstand aus. Aus sozialen Forderungen wurden politische: Rücktritt der SED, freie Wahlen, Einheit!
-                        </div>
-                    </div>
+                           <!-- Content Area -->
+                           <main class="lg:w-3/4 min-h-[70vh]">
 
-                    <!-- Punkt 4 -->
-                    <div class="relative">
-                        <div class="timeline-dot bg-ddrRed">
-                            <i class="fa-solid fa-tank-water"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Ergebnis & Folgen</h3>
-                        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300">
-                            Die DDR-Regierung floh zu den Sowjets. Die Sowjetunion verhängte den Ausnahmezustand und walzte den Aufstand mit <strong>sowjetischen Panzern</strong> blutig nieder. Dutzende Tote. Folge: Die Stasi wurde massiv ausgebaut, das Volk war desillusioniert.
-                        </div>
-                    </div>
+                               <!-- SECTION 1: System -->
+                               <section id="system" class="content-section active bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                                   <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
+                                   <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Die Ideologie & das System der DDR</h1>
+                                   <p class="text-slate-500 dark:text-slate-400 text-lg mb-8">Klicke auf die Karten, um die wichtigsten Fachbegriffe zu drehen und zu lernen.</p>
 
-                </div>
-            </section>
+                                   <!-- Flip Cards Grid -->
+                                   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 
-            <!-- SECTION 3: Mauerbau -->
-            <section id="mauerbau" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
-                <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
-                <h1 class="text-3xl md:text-4xl font-extrabold mb-8">13. August 1961: Der Mauerbau</h1>
+                                       <!-- Card 1 -->
+                                       <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                           <div class="flip-card-inner">
+                                               <div class="flip-card-front">
+                                                   <i class="fa-solid fa-book-journal-whills text-4xl text-ddrRed mb-4"></i>
+                                                   <h3 class="text-2xl font-bold">Sozialismus &<br>Kommunismus</h3>
+                                                   <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                                               </div>
+                                               <div class="flip-card-back p-6">
+                                                   <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Die Ideologie</h3>
+                                                   <p class="text-sm">Ziel ist die klassenlose Gesellschaft ohne Ausbeutung. Privateigentum (Fabriken) wird verstaatlicht ("Volkseigentum"). Der Sozialismus ist die Vorstufe zum Kommunismus.</p>
+                                               </div>
+                                           </div>
+                                       </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                   
+                                       <!-- Card 2 -->
+                                       <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                           <div class="flip-card-inner">
+                                               <div class="flip-card-front">
+                                                   <i class="fa-solid fa-users-gear text-4xl text-brandBlue mb-4"></i>
+                                                   <h3 class="text-2xl font-bold">Demokratischer<br>Zentralismus</h3>
+                                                   <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                                               </div>
+                                               <div class="flip-card-back p-6">
+                                                   <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Der Demokratiebegriff</h3>
+                                                   <p class="text-sm">Wahlen waren Scheinwahlen (Einheitslisten). Entscheidungen wurden ganz oben (Politbüro) getroffen und mussten von den unteren Ebenen bedingungslos ausgeführt werden. Keine echte Opposition.</p>
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                       <!-- Card 3 -->
+                                       <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                           <div class="flip-card-inner">
+                                               <div class="flip-card-front">
+                                                   <i class="fa-solid fa-building-shield text-4xl text-slate-800 dark:text-slate-400 mb-4"></i>
+                                                   <h3 class="text-2xl font-bold">SED & STASI</h3>
+                                                   <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                                               </div>
+                                               <div class="flip-card-back p-6">
+                                                   <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Staat & Überwachung</h3>
+                                                   <p class="text-sm"><strong>SED:</strong> Einheitspartei, hatte das absolute Machtmonopol ("Die Partei hat immer recht").<br><strong>Stasi (MfS):</strong> Geheimpolizei, "Schild und Schwert der Partei". Überwachte die Bürger mit tausenden Spitzeln (IM).</p>
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                       <!-- Card 4 -->
+                                       <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                           <div class="flip-card-inner">
+                                               <div class="flip-card-front">
+                                                   <i class="fa-solid fa-chart-pie text-4xl text-green-600 mb-4"></i>
+                                                   <h3 class="text-2xl font-bold">Planwirtschaft</h3>
+                                                   <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                                               </div>
+                                               <div class="flip-card-back p-6 bg-green-700">
+                                                   <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Wirtschaftssystem</h3>
+                                                   <p class="text-sm">Der Staat plant zentral im Voraus (Fünfjahrespläne), was, wie viel und zu welchem Preis produziert wird. Betriebe sind Volkseigene Betriebe (VEB). Folge: Fehlende Flexibilität und chronische Mangelwirtschaft.</p>
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                   </div>
+                               </section>
+
+                               <!-- SECTION 2: 17. Juni 1953 -->
+                               <section id="aufstand" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                                   <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
+                                   <h1 class="text-3xl md:text-4xl font-extrabold mb-8">Arbeiteraufstand vom 17. Juni 1953</h1>
+
+                                   <!-- CSS Timeline -->
+                                   <div class="relative timeline-container pl-12 py-4 space-y-12">
+
+                                       <!-- Punkt 1 -->
+                                       <div class="relative">
+                                           <div class="timeline-dot bg-slate-600 dark:bg-slate-700">
+                                               <i class="fa-solid fa-seedling"></i>
+                                           </div>
+                                           <h3 class="text-xl font-bold mb-2">Die Ursachen (Langfristig)</h3>
+                                           <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300">
+                                               Der forcierte "Aufbau des Sozialismus" (beschlossen 1952) führte zu massiven Problemen: Versorgungsenpässe bei Lebensmitteln, Unterdrückung von Kirche & Mittelstand, Verhaftungen. Die Unzufriedenheit brodelte.
+                                           </div>
+                                       </div>
+
+                                       <!-- Punkt 2 -->
+                                       <div class="relative">
+                                           <div class="timeline-dot bg-orange-500">
+                                               <i class="fa-solid fa-bolt"></i>
+                                           </div>
+                                           <h3 class="text-xl font-bold mb-2">Der Anlass (Der Funke)</h3>
+                                           <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800 text-slate-700 dark:text-slate-300">
+                                               Die SED-Führung beschloss eine <span class="method-highlight">Erhöhung der Arbeitsnormen um 10 %</span>. Das hieß: 10% mehr arbeiten für das gleiche Geld. Für die Arbeiter war dies eine faktische Lohnkürzung und untragbar.
+                                           </div>
+                                       </div>
+
+                                       <!-- Punkt 3 -->
+                                       <div class="relative">
+                                           <div class="timeline-dot bg-brandBlue">
+                                               <i class="fa-solid fa-bullhorn"></i>
+                                           </div>
+                                           <h3 class="text-xl font-bold mb-2">Der Verlauf</h3>
+                                           <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-slate-700 dark:text-slate-300">
+                                               Am 16. Juni begannen Berliner Bauarbeiter der Stalinallee einen Streik. Am <strong>17. Juni 1953</strong> weitete sich dies zu einem landesweiten Volksaufstand aus. Aus sozialen Forderungen wurden politische: Rücktritt der SED, freie Wahlen, Einheit!
+                                           </div>
+                                       </div>
+
+                                       <!-- Punkt 4 -->
+                                       <div class="relative">
+                                           <div class="timeline-dot bg-ddrRed">
+                                               <i class="fa-solid fa-tank-water"></i>
+                                           </div>
+                                           <h3 class="text-xl font-bold mb-2">Ergebnis & Folgen</h3>
+                                           <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300">
+                                               Die DDR-Regierung floh zu den Sowjets. Die Sowjetunion verhängte den Ausnahmezustand und walzte den Aufstand mit <strong>sowjetischen Panzern</strong> blutig nieder. Dutzende Tote. Folge: Die Stasi wurde massiv ausgebaut, das Volk war desillusioniert.
+                                           </div>
+                                       </div>
+
+                                   </div>
+                               </section>
+
+                               <!-- SECTION 3: Mauerbau -->
+                               <section id="mauerbau" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                                   <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
+                                   <h1 class="text-3xl md:text-4xl font-extrabold mb-8">13. August 1961: Der Mauerbau</h1>
+
+                                   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                                       <div>
+                                           <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-person-running text-brandBlue"></i> Warum die Mauer? (Ursachen)</h3>
+                                           <ul class="space-y-3 text-slate-700 dark:text-slate-300">
+                                               <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span><strong>Massenflucht ("Republikflucht"):</strong> Ca. 2,5 - 3 Mio. Menschen flohen seit 1949, meist über den offenen Sektor in West-Berlin.</span></li>
+                                               <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span><strong>Brain Drain:</strong> Es flohen vor allem junge, gut ausgebildete Fachkräfte (Ärzte, Ingenieure). Die DDR blutete wirtschaftlich aus.</span></li>
+                                               <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span><strong>Imageverlust:</strong> Das "Abstimmen mit den Füßen" war eine Niederlage für den Sozialismus im Systemwettbewerb.</span></li>
+                                           </ul>
+                                       </div>
+
+                                       <div class="bg-slate-100 dark:bg-slate-700/50 p-6 rounded-xl border border-slate-200 dark:border-slate-600">
+                                           <h3 class="text-xl font-bold mb-4 text-ddrRed flex items-center gap-2"><i class="fa-solid fa-crosshairs"></i> Aufbau & Schießbefehl</h3>
+                                           <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">Aus Stacheldraht wurde ein tödliches Grenzsicherungssystem ("Todesstreifen"):</p>
+                                           <div class="flex flex-wrap gap-2 mb-4">
+                                               <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Vorderlandmauer</span>
+                                               <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Signalzaun</span>
+                                               <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Wachtürme</span>
+                                               <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Minenfelder</span>
+                                           </div>
+                                           <p class="text-sm font-semibold bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 p-3 rounded border-l-4 border-red-500">
+                                               <strong>Schießbefehl:</strong> Grenzsoldaten mussten die Flucht notfalls durch gezielten Schusswaffengebrauch ("Vernichtung des Grenzverletzers") verhindern.
+                                           </p>
+                                       </div>
+                                   </div>
+
+                                   <h3 class="text-xl font-bold mb-4">Reaktionen</h3>
+                                   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                       <div class="p-4 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-t-4 border-blue-500 text-sm">
+                                           <strong class="block mb-1">USA / Westen</strong>
+                                           Protest, aber Akzeptanz. Verhindert 3. Weltkrieg ("Besser eine Mauer als ein Krieg" - JFK). Schutz West-Berlins bleibt garantiert.
+                                       </div>
+                                       <div class="p-4 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-t-4 border-yellow-500 text-sm">
+                                           <strong class="block mb-1">BRD</strong>
+                                           Entsetzen & Ohnmacht. Scharfe Proteste gegen die "Schandmauer" durch Willy Brandt und Konrad Adenauer.
+                                       </div>
+                                       <div class="p-4 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-t-4 border-red-500 text-sm">
+                                           <strong class="block mb-1">DDR Volk</strong>
+                                           Schock, Zerrissenheit von Familien. Rückzug ins Private ("Nischengesellschaft"), da Flucht nun kaum noch möglich.
+                                       </div>
+                                   </div>
+                               </section>
+
+                               <!-- SECTION 4: Methodik & Quellen -->
+                               <section id="methodik" class="content-section bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
+                                   <div class="flex gap-2 mb-4">
+                                       <div class="inline-block bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 font-bold px-3 py-1 rounded-full text-sm">Methodenkompetenz</div>
+                                       <div class="inline-block bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-bold px-3 py-1 rounded-full text-sm">Deutungskompetenz</div>
+                                   </div>
+                                   <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Quellenanalyse & Propaganda</h1>
+                                   <p class="text-slate-600 dark:text-slate-300 mb-8">So sicherst du dir die Punkte im Anforderungsbereich II & III der Klausur.</p>
+
+                                   <!-- Interactive Analysis Tool -->
+                                   <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 mb-8">
+                                       <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-magnifying-glass"></i> Interaktives Quellen-Training</h3>
+                                       <p class="text-sm mb-4">Fahre mit der Maus über die <span class="method-highlight">markierten Wörter</span> im Text, um die Propagandamittel der DDR zu entschlüsseln!</p>
+
+                                       <div class="font-serif italic text-lg leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-lg shadow-inner border border-slate-100 dark:border-slate-600 relative">
+                                           "Die Maßnahmen unserer Regierung zum Bau eines <span class="method-highlight group relative">antifaschistischen Schutzwalls<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs font-sans not-italic rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"><strong>Die Lüge/Umdeutung:</strong> Mauer soll angeblich vor Angreifern aus dem Westen schützen, in Wahrheit richtet sie sich gegen das eigene Volk.</span></span> dienen dem Schutz unserer <span class="method-highlight group relative">sozialistischen Heimat<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs font-sans not-italic rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"><strong>Wir-Gefühl:</strong> Emotionale Bindung erzwingen, Identifikation fordern.</span></span> vor den <span class="method-highlight group relative">Kriegstreibern und Militaristen<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs font-sans not-italic rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"><strong>Feindbild / Schwarz-Weiß:</strong> Abwertung des Westens, um eigene Fehler zu kaschieren.</span></span> in Bonn und Washington."
+                                       </div>
+                                   </div>
+
+                                   <!-- Formulierungen -->
+                                   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                       <div>
+                                           <h4 class="font-bold text-lg mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">1. Der perfekte Einleitungssatz</h4>
+                                           <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                                               <li><strong>T</strong>itel, <strong>A</strong>utor, <strong>T</strong>extart, <strong>T</strong>hema, <strong>E</strong>rscheinungsjahr</li>
+                                               <li class="mt-2 text-brandBlue dark:text-blue-400 font-semibold">+ Adressat (An wen gerichtet?)</li>
+                                               <li class="text-brandBlue dark:text-blue-400 font-semibold">+ Intention (Was ist das Ziel?)</li>
+                                           </ul>
+                                           <div class="mt-3 bg-blue-50 dark:bg-blue-900/20 p-3 rounded text-sm font-mono border-l-4 border-brandBlue">
+                                               "Die vorliegende Propagandarede, verfasst von... richtet sich an die DDR-Bevölkerung mit der Intention, den Mauerbau zu legitimieren..."
+                                           </div>
+                                       </div>
+                                       <div>
+                                           <h4 class="font-bold text-lg mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">2. Wahrheitsgehalt beurteilen</h4>
+                                           <p class="text-sm text-slate-700 dark:text-slate-300 mb-2">Nutze in der Klausur dein Vorwissen (Massenflucht, Fachkräftemangel), um die Propaganda zu entlarven.</p>
+                                           <div class="bg-emerald-50 dark:bg-emerald-900/20 p-3 rounded text-sm font-mono border-l-4 border-emerald-500">
+                                               "Vergleicht man die Aussage der Quelle mit dem historischen Kontext, zeigt sich, dass es sich um eine vorgeschobene Schutzbehauptung (Propaganda) handelt. Der Wahrheitsgehalt ist gering..."
+                                           </div>
+                                       </div>
+                                   </div>
+                               </section>
+
+                           </main>
+                       </div>
+
+                       <!-- JAVASCRIPT LOGIC -->
+                       <script>
+                           // --- 1. Tab Navigation ---
+                           function switchTab(tabId) {
+                               // Hide all sections
+                               document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+                               // Show selected section
+                               document.getElementById(tabId).classList.add('active');
+
+                               // Update button styles
+                               document.querySelectorAll('.nav-btn').forEach(btn => {
+                                   if(btn.dataset.target === tabId) {
+                                       btn.classList.add('bg-brandBlue', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+                                       btn.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                                   } else {
+                                       btn.classList.remove('bg-brandBlue', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+                                       btn.classList.add('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                                   }
+                               });
+
+                               // Mobile: Scroll up slightly
+                               if(window.innerWidth < 1024) {
+                                   window.scrollTo({ top: document.querySelector('main').offsetTop - 80, behavior: 'smooth' });
+                               }
+                           }
+
+                           // --- 2. Interaktive Checkliste (basiert auf PDF) ---
+                           const checklistItems = [
+                               { id: "chk_1", text: "Ideologie (Sozialismus) & Demokratiebegriff" },
+                               { id: "chk_2", text: "Rolle von SED und Stasi" },
+                               { id: "chk_3", text: "System der Planwirtschaft" },
+                               { id: "chk_4", text: "17. Juni 1953 (Ursachen, Verlauf, Ergebnis)" },
+                               { id: "chk_5", text: "Mauerbau: Ursachen & Reaktionen" },
+                               { id: "chk_6", text: "Aufbau der Grenze & Schießbefehl" },
+                               { id: "chk_7", text: "Propaganda entschlüsseln (Antifaschistischer Schutzwall)" },
+                               { id: "chk_8", text: "Quelleneinleitung (Adressat & Intention)" }
+                           ];
+
+                           const container = document.getElementById('checklist-container');
+
+                           // Render Checklist
+                           checklistItems.forEach(item => {
+                               const isChecked = localStorage.getItem(item.id) === 'true';
+                               const html = `
+                                   <label class="flex items-start gap-3 cursor-pointer custom-checkbox group">
+                                       <div class="relative flex items-center justify-center mt-1">
+                                           <input type="checkbox" class="sr-only" id="${item.id}" ${isChecked ? 'checked' : ''} onchange="updateProgress('${item.id}')">
+                                           <div class="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 transition-colors group-hover:border-brandBlue flex items-center justify-center">
+                                               <svg class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                           </div>
+                                       </div>
+                                       <span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-brandBlue transition-colors select-none">${item.text}</span>
+                                   </label>
+                               `;
+                               container.innerHTML += html;
+                           });
+
+                           // --- 3. Lernfortschritt berechnen ---
+                           function updateProgress(changedId = null) {
+                               if(changedId) {
+                                   const isChecked = document.getElementById(changedId).checked;
+                                   localStorage.setItem(changedId, isChecked);
+                               }
+
+                               let checkedCount = 0;
+                               checklistItems.forEach(item => {
+                                   if(localStorage.getItem(item.id) === 'true') checkedCount++;
+                               });
+
+                               const percent = Math.round((checkedCount / checklistItems.length) * 100);
+
+                               document.getElementById('progress-bar').style.width = percent + '%';
+                               document.getElementById('progress-text').innerText = `Lernfortschritt: ${percent}%`;
+
+                               // Farbwechsel je nach Fortschritt
+                               const bar = document.getElementById('progress-bar');
+                               if(percent < 33) bar.className = "h-full bg-red-500 transition-all duration-500 ease-out";
+                               else if(percent < 99) bar.className = "h-full bg-yellow-500 transition-all duration-500 ease-out";
+                               else bar.className = "h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)] transition-all duration-500 ease-out";
+                           }
+
+                           // --- 4. Dark Mode Toggle ---
+                           const themeToggleBtn = document.getElementById('theme-toggle');
+                           const themeIcon = document.getElementById('theme-icon');
+
+                           // Prüfe gespeichertes Theme
+                           if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                               document.documentElement.classList.add('dark');
+                               themeIcon.classList.replace('fa-moon', 'fa-sun');
+                           } else {
+                               document.documentElement.classList.remove('dark');
+                           }
+
+                           themeToggleBtn.addEventListener('click', () => {
+                               document.documentElement.classList.toggle('dark');
+                               if (document.documentElement.classList.contains('dark')) {
+                                   localStorage.theme = 'dark';
+                                   themeIcon.classList.replace('fa-moon', 'fa-sun');
+                               } else {
+                                   localStorage.theme = 'light';
+                                   themeIcon.classList.replace('fa-sun', 'fa-moon');
+                               }
+                           });
+
+                           // Init initial calculation
+                           updateProgress();
+
+                       </script>
+                   </body>
+                   </html>
+
