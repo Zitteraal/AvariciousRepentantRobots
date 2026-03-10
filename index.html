@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klausur-Masterclass: Geteiltes Deutschland</title>
-
-    <!-- Tailwind CSS für das Grundgerüst -->
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- FontAwesome für Icons -->
+    
+    <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind Konfiguration für Dark Mode -->
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -32,13 +32,10 @@
         }
     </script>
 
-    <!-- BENUTZERDEFINIERTES CSS -->
     <style>
-        /* Sanftes Scrollen und allgemeines Setup */
         html { scroll-behavior: smooth; }
         body { transition: background-color 0.3s, color 0.3s; }
 
-        /* Verstecken der Sections für Single-Page-App Feeling */
         .content-section {
             display: none;
             animation: fadeIn 0.4s ease-out forwards;
@@ -51,7 +48,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Interaktive Lernkarten (Flip Cards) --- */
+        /* --- Flip Cards --- */
         .flip-card {
             background-color: transparent;
             height: 250px;
@@ -68,9 +65,7 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
             border-radius: 1rem;
         }
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back {
             position: absolute;
             width: 100%;
@@ -97,20 +92,16 @@
             color: white;
             transform: rotateY(180deg);
         }
-        .dark .flip-card-back {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
-        }
+        .dark .flip-card-back { background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%); }
 
-        /* Custom Checkbox Design */
+        /* Custom Checkbox */
         .custom-checkbox input:checked + div {
             background-color: #10b981;
             border-color: #10b981;
         }
-        .custom-checkbox input:checked + div svg {
-            display: block;
-        }
+        .custom-checkbox input:checked + div svg { display: block; }
 
-        /* Highlight Text Animation */
+        /* Highlight Text */
         .method-highlight {
             background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
             background-repeat: no-repeat;
@@ -148,16 +139,14 @@
                     </div>
                     <span class="font-bold text-xl tracking-tight">Klausur<span class="text-brandBlue">Master</span></span>
                 </div>
-
+                
                 <div class="flex items-center gap-6">
-                    <!-- Progress Bar -->
                     <div class="hidden md:flex flex-col items-end">
                         <span class="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1" id="progress-text">Lernfortschritt: 0%</span>
                         <div class="w-48 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                             <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0%"></div>
                         </div>
                     </div>
-                    <!-- Theme Toggle -->
                     <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                         <i class="fa-solid fa-moon text-xl text-slate-600 dark:text-slate-300" id="theme-icon"></i>
                     </button>
@@ -168,27 +157,27 @@
 
     <!-- Main Layout -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
-
+        
         <!-- Sidebar Navigation -->
         <aside class="lg:w-1/4 flex-shrink-0">
             <div class="sticky top-24 space-y-2">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 px-3">Dein Lehrplan</h3>
-
+                
                 <button onclick="switchTab('system')" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-brandBlue text-white shadow-md shadow-blue-500/20" data-target="system">
                     <i class="fa-solid fa-landmark w-5"></i>
                     <span class="font-semibold text-left">1. DDR System & Ideologie</span>
                 </button>
-
+                
                 <button onclick="switchTab('aufstand')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="aufstand">
                     <i class="fa-solid fa-fire w-5"></i>
                     <span class="font-semibold text-left">2. 17. Juni 1953</span>
                 </button>
-
+                
                 <button onclick="switchTab('mauerbau')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="mauerbau">
                     <i class="fa-solid fa-brick w-5"></i>
                     <span class="font-semibold text-left">3. Der Mauerbau</span>
                 </button>
-
+                
                 <button onclick="switchTab('methodik')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-target="methodik">
                     <i class="fa-solid fa-microscope w-5"></i>
                     <span class="font-semibold text-left">4. Methodik & Quellen</span>
@@ -208,76 +197,74 @@
 
         <!-- Content Area -->
         <main class="lg:w-3/4 min-h-[70vh]">
-
+            
             <!-- SECTION 1: System -->
             <section id="system" class="content-section active bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-10 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
                 <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Die Ideologie & das System der DDR</h1>
-                <p class="text-slate-500 dark:text-slate-400 text-lg mb-8">Klicke auf die Karten, um die wichtigsten Fachbegriffe zu drehen und zu lernen.</p>
+                <p class="text-slate-500 dark:text-slate-400 text-lg mb-8">Grundbegriffe (Klicken zum Wenden)</p>
 
                 <!-- Flip Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-
-                    <!-- Card 1 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                     <div class="flip-card" onclick="this.classList.toggle('flipped')">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <i class="fa-solid fa-book-journal-whills text-4xl text-ddrRed mb-4"></i>
-                                <h3 class="text-2xl font-bold">Sozialismus &<br>Kommunismus</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                                <h3 class="text-2xl font-bold">Sozialismus</h3>
                             </div>
                             <div class="flip-card-back p-6">
                                 <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Die Ideologie</h3>
-                                <p class="text-sm">Ziel ist die klassenlose Gesellschaft ohne Ausbeutung. Privateigentum (Fabriken) wird verstaatlicht ("Volkseigentum"). Der Sozialismus ist die Vorstufe zum Kommunismus.</p>
+                                <p class="text-sm">Vorstufe zum Kommunismus. Ziel: Klassenlose Gesellschaft ohne Ausbeutung. Das Privateigentum (Fabriken, Banken, Boden) wird abgeschafft und in "Volkseigentum" überführt.</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Card 2 -->
                     <div class="flip-card" onclick="this.classList.toggle('flipped')">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <i class="fa-solid fa-users-gear text-4xl text-brandBlue mb-4"></i>
-                                <h3 class="text-2xl font-bold">Demokratischer<br>Zentralismus</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
+                                <h3 class="text-2xl font-bold text-center">Demokratischer<br>Zentralismus</h3>
                             </div>
                             <div class="flip-card-back p-6">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Der Demokratiebegriff</h3>
-                                <p class="text-sm">Wahlen waren Scheinwahlen (Einheitslisten). Entscheidungen wurden ganz oben (Politbüro) getroffen und mussten von den unteren Ebenen bedingungslos ausgeführt werden. Keine echte Opposition.</p>
+                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Demokratiebegriff der DDR</h3>
+                                <p class="text-sm">"Demokratisch" = Die Partei (SED) vertritt angeblich den wahren Willen des Volkes. "Zentralismus" = Strenge Hierarchie. Entscheidungen der Führung sind für alle unteren Ebenen absolut bindend. Keine Opposition.</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Card 3 -->
-                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <i class="fa-solid fa-building-shield text-4xl text-slate-800 dark:text-slate-400 mb-4"></i>
-                                <h3 class="text-2xl font-bold">SED & STASI</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
-                            </div>
-                            <div class="flip-card-back p-6">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Staat & Überwachung</h3>
-                                <p class="text-sm"><strong>SED:</strong> Einheitspartei, hatte das absolute Machtmonopol ("Die Partei hat immer recht").<br><strong>Stasi (MfS):</strong> Geheimpolizei, "Schild und Schwert der Partei". Überwachte die Bürger mit tausenden Spitzeln (IM).</p>
-                            </div>
-                        </div>
+                <!-- Deep Dive Content -->
+                <h2 class="text-2xl font-bold mb-6 border-b pb-2 dark:border-slate-700">Deep Dive: Das System im Detail</h2>
+                
+                <div class="space-y-6">
+                    <!-- SED & Wahlen -->
+                    <div class="bg-slate-50 dark:bg-slate-700/30 p-6 rounded-xl border border-slate-200 dark:border-slate-600">
+                        <h3 class="text-xl font-bold mb-3 text-brandBlue dark:text-blue-400 flex items-center gap-2"><i class="fa-solid fa-hand-fist"></i> 1. Die Rolle der SED und der Scheinwahlen</h3>
+                        <p class="text-slate-700 dark:text-slate-300 mb-3">Die <strong>S</strong>ozialistische <strong>E</strong>inheitspartei <strong>D</strong>eutschlands (SED) entstand 1946 aus der Zwangsvereinigung von SPD und KPD in der Ostzone. Sie beanspruchte die absolute Führung ("Die Partei, die Partei, die hat immer recht").</p>
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li><strong>Nationale Front & Blockparteien:</strong> Es gab zwar andere Parteien (CDU, LDPD), aber sie waren in der "Nationalen Front" gleichgeschaltet und mussten die Führungsrolle der SED anerkennen.</li>
+                            <li><strong>Scheinwahlen:</strong> Bürger konnten nur eine vorgefertigte "Einheitsliste" (die immer zu ca. 99% angenommen wurde) offen in die Urne werfen ("Zettelfalten"). Wer die Wahlkabine nutzte, machte sich verdächtig.</li>
+                        </ul>
                     </div>
 
-                    <!-- Card 4 -->
-                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <i class="fa-solid fa-chart-pie text-4xl text-green-600 mb-4"></i>
-                                <h3 class="text-2xl font-bold">Planwirtschaft</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Klicken zum Aufdecken</p>
-                            </div>
-                            <div class="flip-card-back p-6 bg-green-700">
-                                <h3 class="font-bold border-b border-blue-400 pb-2 mb-2">Wirtschaftssystem</h3>
-                                <p class="text-sm">Der Staat plant zentral im Voraus (Fünfjahrespläne), was, wie viel und zu welchem Preis produziert wird. Betriebe sind Volkseigene Betriebe (VEB). Folge: Fehlende Flexibilität und chronische Mangelwirtschaft.</p>
-                            </div>
-                        </div>
+                    <!-- Stasi -->
+                    <div class="bg-slate-50 dark:bg-slate-700/30 p-6 rounded-xl border border-slate-200 dark:border-slate-600">
+                        <h3 class="text-xl font-bold mb-3 text-ddrRed flex items-center gap-2"><i class="fa-solid fa-user-secret"></i> 2. Die STASI (Ministerium für Staatssicherheit)</h3>
+                        <p class="text-slate-700 dark:text-slate-300 mb-3">Die Stasi verstand sich als "Schild und Schwert der Partei". Ihr Ziel war es, alles zu wissen und jeden Widerstand im Keim zu ersticken.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li><strong>Inoffizielle Mitarbeiter (IM):</strong> Ein riesiges Netz aus hunderttausenden Spitzeln, die teils die eigene Familie oder Arbeitskollegen aushorchten und denunzierten.</li>
+                            <li><strong>Zersetzung:</strong> Statt Leute nur einzusperren, wandte die Stasi psychologischen Terror an. Durch Gerüchte, berufliche Sabotage oder organisierte Misserfolge sollten kritische Menschen systematisch mürbe gemacht werden.</li>
+                        </ul>
                     </div>
 
+                    <!-- Planwirtschaft -->
+                    <div class="bg-slate-50 dark:bg-slate-700/30 p-6 rounded-xl border border-slate-200 dark:border-slate-600">
+                        <h3 class="text-xl font-bold mb-3 text-green-600 dark:text-green-500 flex items-center gap-2"><i class="fa-solid fa-chart-line"></i> 3. Das System der Planwirtschaft</h3>
+                        <p class="text-slate-700 dark:text-slate-300 mb-3">Statt Angebot und Nachfrage (Marktwirtschaft) steuerte der Staat die Wirtschaft komplett zentral von oben.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li><strong>Fünfjahrpläne:</strong> Die staatliche Plankommission legte für 5 Jahre im Voraus fest, welcher Betrieb (VEB = Volkseigener Betrieb) wie viel produzieren musste und wie viel es kosten durfte.</li>
+                            <li><strong>Folgen (Mangelwirtschaft):</strong> Da die Pläne starr waren, fehlte es an Innovation. Es kam ständig zu Engpässen bei Konsumgütern (Warten auf den Trabi, fehlendes Baumaterial, Südfrüchte). Gleichzeitig wurden Grundnahrungsmittel und Mieten künstlich extrem billig gehalten (Subventionen), was den Staat ruinierte.</li>
+                        </ul>
+                    </div>
                 </div>
             </section>
 
@@ -286,50 +273,62 @@
                 <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
                 <h1 class="text-3xl md:text-4xl font-extrabold mb-8">Arbeiteraufstand vom 17. Juni 1953</h1>
 
-                <!-- CSS Timeline -->
+                <!-- CSS Timeline with fixed padding -->
                 <div class="relative border-l-4 border-slate-200 dark:border-slate-700 ml-4 md:ml-6 py-2 space-y-12">
-
-                    <!-- Punkt 1 -->
+                    
                     <div class="relative pl-8 md:pl-10">
                         <div class="absolute w-12 h-12 rounded-full flex items-center justify-center text-white text-lg shadow-[0_0_0_4px_#ffffff] dark:shadow-[0_0_0_4px_#1e293b] bg-slate-600 dark:bg-slate-700 -left-[26px] top-0">
                             <i class="fa-solid fa-seedling"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 pt-2.5">Die Ursachen (Langfristig)</h3>
-                        <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300">
-                            Der forcierte "Aufbau des Sozialismus" (beschlossen 1952) führte zu massiven Problemen: Versorgungsenpässe bei Lebensmitteln, Unterdrückung von Kirche & Mittelstand, Verhaftungen. Die Unzufriedenheit brodelte.
+                        <h3 class="text-xl font-bold mb-2 pt-2.5">1. Die Ursachen (Langfristig)</h3>
+                        <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-sm space-y-2">
+                            <p>Auf der II. Parteikonferenz der SED 1952 wurde der beschleunigte <strong>"Aufbau des Sozialismus"</strong> beschlossen. Das bedeutete:</p>
+                            <ul class="list-disc pl-5">
+                                <li>Schwerindustrie wurde gefördert, dafür gab es extreme Lücken bei Konsumgütern und Lebensmitteln.</li>
+                                <li>Unterdrückung der Kirche ("Junge Gemeinde") und Enteignung des Mittelstandes.</li>
+                                <li>Tausende Menschen flohen bereits in den Westen. Die Unzufriedenheit war enorm.</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- Punkt 2 -->
                     <div class="relative pl-8 md:pl-10">
                         <div class="absolute w-12 h-12 rounded-full flex items-center justify-center text-white text-lg shadow-[0_0_0_4px_#ffffff] dark:shadow-[0_0_0_4px_#1e293b] bg-orange-500 -left-[26px] top-0">
                             <i class="fa-solid fa-bolt"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 pt-2.5">Der Anlass (Der Funke)</h3>
-                        <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800 text-slate-700 dark:text-slate-300">
-                            Die SED-Führung beschloss eine <span class="method-highlight">Erhöhung der Arbeitsnormen um 10 %</span>. Das hieß: 10% mehr arbeiten für das gleiche Geld. Für die Arbeiter war dies eine faktische Lohnkürzung und untragbar.
+                        <h3 class="text-xl font-bold mb-2 pt-2.5">2. Der Anlass (Der Zündfunke)</h3>
+                        <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800 text-slate-700 dark:text-slate-300 text-sm space-y-2">
+                            <p>Nach Stalins Tod (März 1953) riet Moskau der SED, den Druck vom Volk zu nehmen ("Neuer Kurs"). Die SED nahm zwar Enteignungen zurück, hielt aber an einer tödlichen Maßnahme fest:</p>
+                            <p><strong>Die Arbeitsnormen wurden um 10 % erhöht!</strong></p>
+                            <p>Das bedeutete: Arbeiter mussten 10% mehr leisten, um denselben Lohn zu erhalten. Für die ohnehin überarbeiteten und schlecht versorgten Menschen war das eine faktische Lohnkürzung und untragbar.</p>
                         </div>
                     </div>
 
-                    <!-- Punkt 3 -->
                     <div class="relative pl-8 md:pl-10">
                         <div class="absolute w-12 h-12 rounded-full flex items-center justify-center text-white text-lg shadow-[0_0_0_4px_#ffffff] dark:shadow-[0_0_0_4px_#1e293b] bg-brandBlue -left-[26px] top-0">
                             <i class="fa-solid fa-bullhorn"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 pt-2.5">Der Verlauf</h3>
-                        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-slate-700 dark:text-slate-300">
-                            Am 16. Juni begannen Berliner Bauarbeiter der Stalinallee einen Streik. Am <strong>17. Juni 1953</strong> weitete sich dies zu einem landesweiten Volksaufstand aus. Aus sozialen Forderungen wurden politische: Rücktritt der SED, freie Wahlen, Einheit!
+                        <h3 class="text-xl font-bold mb-2 pt-2.5">3. Der Verlauf</h3>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-slate-700 dark:text-slate-300 text-sm space-y-2">
+                            <p>Am 16. Juni begannen Bauarbeiter der Prestige-Baustelle Stalinallee in Ost-Berlin zu streiken. Am <strong>17. Juni 1953</strong> weitete sich dieser Protest völlig unorganisiert zu einem landesweiten Volksaufstand in über 700 Orten aus. Etwa 1 Million Menschen protestierten.</p>
+                            <p><strong>Eskalation der Forderungen:</strong></p>
+                            <ul class="list-disc pl-5">
+                                <li>Zuerst ökonomisch: Rücknahme der Normerhöhung, Senkung der Preise.</li>
+                                <li>Dann politisch: Rücktritt von SED-Chef Walter Ulbricht, freie und geheime Wahlen, Wiedervereinigung Deutschlands!</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <!-- Punkt 4 -->
                     <div class="relative pl-8 md:pl-10">
                         <div class="absolute w-12 h-12 rounded-full flex items-center justify-center text-white text-lg shadow-[0_0_0_4px_#ffffff] dark:shadow-[0_0_0_4px_#1e293b] bg-ddrRed -left-[26px] top-0">
                             <i class="fa-solid fa-tank-water"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 pt-2.5">Ergebnis & Folgen</h3>
-                        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300">
-                            Die DDR-Regierung floh zu den Sowjets. Die Sowjetunion verhängte den Ausnahmezustand und walzte den Aufstand mit <strong>sowjetischen Panzern</strong> blutig nieder. Dutzende Tote. Folge: Die Stasi wurde massiv ausgebaut, das Volk war desillusioniert.
+                        <h3 class="text-xl font-bold mb-2 pt-2.5">4. Ergebnis & Folgen</h3>
+                        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300 text-sm space-y-2">
+                            <p>Die DDR-Regierung war machtlos und floh ins sowjetische Hauptquartier in Karlshorst. Die Sowjetunion verhängte das Kriegsrecht und walzte den Aufstand mit <strong>sowjetischen Panzern (T-34)</strong> blutig nieder.</p>
+                            <ul class="list-disc pl-5">
+                                <li><strong>Opfer:</strong> Mindestens 55 Tote, tausende Verhaftungen.</li>
+                                <li><strong>Folgen:</strong> Die SED-Herrschaft war fortan nur noch durch die Präsenz der Sowjetarmee gesichert. Die Stasi (MfS) wurde massiv ausgebaut, damit die SED nie wieder von Protesten "überrascht" wird. Die Entfremdung zwischen Volk und Staat war endgültig.</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -341,44 +340,60 @@
                 <div class="inline-block bg-blue-100 dark:bg-blue-900/30 text-brandBlue dark:text-blue-400 font-bold px-3 py-1 rounded-full text-sm mb-4">Sachkompetenz</div>
                 <h1 class="text-3xl md:text-4xl font-extrabold mb-8">13. August 1961: Der Mauerbau</h1>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                    <div>
-                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-person-running text-brandBlue"></i> Warum die Mauer? (Ursachen)</h3>
-                        <ul class="space-y-3 text-slate-700 dark:text-slate-300">
-                            <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span><strong>Massenflucht ("Republikflucht"):</strong> Ca. 2,5 - 3 Mio. Menschen flohen seit 1949, meist über den offenen Sektor in West-Berlin.</span></li>
-                            <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span><strong>Brain Drain:</strong> Es flohen vor allem junge, gut ausgebildete Fachkräfte (Ärzte, Ingenieure). Die DDR blutete wirtschaftlich aus.</span></li>
-                            <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span><strong>Imageverlust:</strong> Das "Abstimmen mit den Füßen" war eine Niederlage für den Sozialismus im Systemwettbewerb.</span></li>
-                        </ul>
-                    </div>
+                <!-- Ursachen -->
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 dark:border-slate-700">Ursachen: Warum wurde die Mauer gebaut?</h3>
+                <div class="bg-slate-50 dark:bg-slate-700/30 p-5 rounded-xl border border-slate-200 dark:border-slate-600 mb-8 text-sm text-slate-700 dark:text-slate-300">
+                    Die innerdeutsche Grenze war bereits seit 1952 abgeriegelt. Das "Schlupfloch" war Berlin. Jeder Ost-Berliner konnte einfach mit der U-Bahn nach West-Berlin fahren und sich in die BRD ausfliegen lassen.
+                    <ul class="list-disc pl-5 mt-3 space-y-2">
+                        <li><strong>Republikflucht / Massenflucht:</strong> Zwischen 1949 und 1961 verließen ca. 2,7 Millionen Menschen die DDR. Das war ein Sechstel der Bevölkerung.</li>
+                        <li><strong>Brain Drain ("Ausbluten"):</strong> Es flohen vor allem die jungen, gebildeten Fachkräfte: Ärzte, Ingenieure, Facharbeiter. Dies drohte die ostdeutsche Wirtschaft komplett kollabieren zu lassen.</li>
+                        <li><strong>Systemwettbewerb:</strong> Die massenhafte Flucht war eine "Abstimmung mit den Füßen" und bewies der ganzen Welt die Unattraktivität des SED-Regimes im Vergleich zum "Wirtschaftswunder" im Westen.</li>
+                    </ul>
+                </div>
 
-                    <div class="bg-slate-100 dark:bg-slate-700/50 p-6 rounded-xl border border-slate-200 dark:border-slate-600">
-                        <h3 class="text-xl font-bold mb-4 text-ddrRed flex items-center gap-2"><i class="fa-solid fa-crosshairs"></i> Aufbau & Schießbefehl</h3>
-                        <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">Aus Stacheldraht wurde ein tödliches Grenzsicherungssystem ("Todesstreifen"):</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Vorderlandmauer</span>
-                            <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Signalzaun</span>
-                            <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Wachtürme</span>
-                            <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded shadow-sm text-xs font-bold border border-slate-200 dark:border-slate-600">Minenfelder</span>
+                <!-- Aufbau & Schießbefehl -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 border-b pb-2 dark:border-slate-700">Aufbau der Grenze ("Todesstreifen")</h3>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">Die Grenze war kein einzelner Zaun, sondern ein gestaffeltes, tödliches System, das von Osten nach Westen so aufgebaut war:</p>
+                        <ol class="list-decimal pl-5 space-y-1 text-sm font-semibold text-slate-800 dark:text-slate-200">
+                            <li>Hinterlandmauer (erste Hürde im Osten)</li>
+                            <li>Signalzaun (löste optisch/akustisch Alarm aus)</li>
+                            <li>Kolonnenweg (für Patrouillenfahrzeuge der Grenzer)</li>
+                            <li>Wachtürme und Suchscheinwerfer</li>
+                            <li>Panzersperren ("Tschechenigel") & Hundelaufanlagen</li>
+                            <li>Todesstreifen (geharkter Sand, um Fußspuren zu sehen)</li>
+                            <li>Vorderlandmauer (Die eigentliche Mauer Richtung Westen)</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-ddrRed border-b pb-2 dark:border-slate-700"><i class="fa-solid fa-crosshairs"></i> Der Schießbefehl</h3>
+                        <div class="bg-red-50 dark:bg-red-900/20 p-5 rounded-xl border border-red-200 dark:border-red-800 text-sm text-slate-700 dark:text-slate-300">
+                            <p>Der Schießbefehl war eine Dienstanweisung an die Grenztruppen, "Grenzverletzer" notfalls mit Schusswaffen aufzuhalten ("Vernichtung des Grenzverletzers").</p>
+                            <ul class="list-disc pl-5 mt-3 space-y-2">
+                                <li>Theoretisch sollte erst ein Warnruf, dann ein Warnschuss erfolgen, bevor gezielt auf die Beine oder den Körper geschossen wurde.</li>
+                                <li>In der Praxis war die Fluchtverhinderung das höchste Gebot. Wer einen Flüchtling durch Schüsse stoppte (oder tötete), wurde oft belohnt (Sonderurlaub, Prämien).</li>
+                                <li>Folge: An Mauer und Grenze starben hunderte Menschen bei Fluchtversuchen (z.B. Peter Fechter, der 1962 qualvoll im Todesstreifen verblutete).</li>
+                            </ul>
                         </div>
-                        <p class="text-sm font-semibold bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 p-3 rounded border-l-4 border-red-500">
-                            <strong>Schießbefehl:</strong> Grenzsoldaten mussten die Flucht notfalls durch gezielten Schusswaffengebrauch ("Vernichtung des Grenzverletzers") verhindern.
-                        </p>
                     </div>
                 </div>
 
-                <h3 class="text-xl font-bold mb-4">Reaktionen</h3>
+                <!-- Reaktionen -->
+                <h3 class="text-xl font-bold mb-4 border-b pb-2 dark:border-slate-700">Differenzierte Reaktionen auf den Mauerbau</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-4 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-t-4 border-blue-500 text-sm">
-                        <strong class="block mb-1">USA / Westen</strong>
-                        Protest, aber Akzeptanz. Verhindert 3. Weltkrieg ("Besser eine Mauer als ein Krieg" - JFK). Schutz West-Berlins bleibt garantiert.
+                    <div class="p-5 bg-blue-50 dark:bg-slate-700/50 rounded-xl shadow-sm border-t-4 border-blue-500 text-sm text-slate-700 dark:text-slate-300">
+                        <strong class="block mb-2 text-base text-slate-900 dark:text-white">USA / Westmächte</strong>
+                        Es gab diplomatischen Protest, aber faktisch Akzeptanz. US-Präsident Kennedy sah die Mauer als Lösung, um einen Dritten Weltkrieg (Atomkrieg) in Berlin zu verhindern ("A wall is a hell of a lot better than a war"). Der Status quo (Schutz von West-Berlin) blieb gewahrt. Kennedys Besuch 1963 ("Ich bin ein Berliner") demonstrierte Solidarität.
                     </div>
-                    <div class="p-4 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-t-4 border-yellow-500 text-sm">
-                        <strong class="block mb-1">BRD</strong>
-                        Entsetzen & Ohnmacht. Scharfe Proteste gegen die "Schandmauer" durch Willy Brandt und Konrad Adenauer.
+                    <div class="p-5 bg-yellow-50 dark:bg-slate-700/50 rounded-xl shadow-sm border-t-4 border-yellow-500 text-sm text-slate-700 dark:text-slate-300">
+                        <strong class="block mb-2 text-base text-slate-900 dark:text-white">BRD (Westdeutschland)</strong>
+                        Schock, Entsetzen und das Gefühl der Ohnmacht. Berlins regierender Bürgermeister Willy Brandt war wütend über die Inaktivität der USA und sprach von der "Schandmauer". Kanzler Adenauer zögerte, fuhr erst spät nach Berlin, rief aber zur Besonnenheit auf, um keinen Krieg zu provozieren.
                     </div>
-                    <div class="p-4 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-t-4 border-red-500 text-sm">
-                        <strong class="block mb-1">DDR Volk</strong>
-                        Schock, Zerrissenheit von Familien. Rückzug ins Private ("Nischengesellschaft"), da Flucht nun kaum noch möglich.
+                    <div class="p-5 bg-red-50 dark:bg-slate-700/50 rounded-xl shadow-sm border-t-4 border-red-500 text-sm text-slate-700 dark:text-slate-300">
+                        <strong class="block mb-2 text-base text-slate-900 dark:text-white">DDR-Bevölkerung</strong>
+                        Trauer, Wut und Resignation. Familien, Freunde und Arbeitskollegen wurden über Nacht gewaltsam getrennt. Da die "Abstimmung mit den Füßen" nun unmöglich war, arrangierten sich viele notgedrungen mit dem System und zogen sich ins Private zurück ("Nischengesellschaft").
                     </div>
                 </div>
             </section>
@@ -389,37 +404,78 @@
                     <div class="inline-block bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 font-bold px-3 py-1 rounded-full text-sm">Methodenkompetenz</div>
                     <div class="inline-block bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-bold px-3 py-1 rounded-full text-sm">Deutungskompetenz</div>
                 </div>
-                <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Quellenanalyse & Propaganda</h1>
-                <p class="text-slate-600 dark:text-slate-300 mb-8">So sicherst du dir die Punkte im Anforderungsbereich II & III der Klausur.</p>
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-8">Quellenarbeit: Propaganda dekonstruieren</h1>
 
-                <!-- Interactive Analysis Tool -->
-                <div class="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 mb-8">
-                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-magnifying-glass"></i> Interaktives Quellen-Training</h3>
-                    <p class="text-sm mb-4">Fahre mit der Maus über die <span class="method-highlight">markierten Wörter</span> im Text, um die Propagandamittel der DDR zu entschlüsseln!</p>
-
-                    <div class="font-serif italic text-lg leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-lg shadow-inner border border-slate-100 dark:border-slate-600 relative">
-                        "Die Maßnahmen unserer Regierung zum Bau eines <span class="method-highlight group relative">antifaschistischen Schutzwalls<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs font-sans not-italic rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"><strong>Die Lüge/Umdeutung:</strong> Mauer soll angeblich vor Angreifern aus dem Westen schützen, in Wahrheit richtet sie sich gegen das eigene Volk.</span></span> dienen dem Schutz unserer <span class="method-highlight group relative">sozialistischen Heimat<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs font-sans not-italic rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"><strong>Wir-Gefühl:</strong> Emotionale Bindung erzwingen, Identifikation fordern.</span></span> vor den <span class="method-highlight group relative">Kriegstreibern und Militaristen<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs font-sans not-italic rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"><strong>Feindbild / Schwarz-Weiß:</strong> Abwertung des Westens, um eigene Fehler zu kaschieren.</span></span> in Bonn und Washington."
+                <!-- 1. Einleitung -->
+                <div class="mb-8 border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden">
+                    <div class="bg-slate-100 dark:bg-slate-700 p-4 font-bold">1. Der formale Einleitungssatz (TATTE + A + I)</div>
+                    <div class="p-5 text-sm text-slate-700 dark:text-slate-300 space-y-3">
+                        <p>In der Klausur musst du Quellen zielgerichtet einleiten. Vergiss bei politischen Reden oder Plakaten niemals Adressat und Intention!</p>
+                        <ul class="grid grid-cols-2 gap-2 mb-3">
+                            <li><i class="fa-solid fa-check text-green-500"></i> <strong>T</strong>itel der Quelle</li>
+                            <li><i class="fa-solid fa-check text-green-500"></i> <strong>A</strong>utor (Verfasser)</li>
+                            <li><i class="fa-solid fa-check text-green-500"></i> <strong>T</strong>extart (Rede, Artikel...)</li>
+                            <li><i class="fa-solid fa-check text-green-500"></i> <strong>T</strong>hema (In einem Satz)</li>
+                            <li><i class="fa-solid fa-check text-green-500"></i> <strong>E</strong>rscheinungsjahr/-ort</li>
+                        </ul>
+                        <div class="p-3 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-brandBlue">
+                            <strong>+ Adressat:</strong> An wen richtet sich der Autor? (An die Bürger der DDR? An den "Klassenfeind" im Westen? An Parteigenossen?)<br>
+                            <strong>+ Intention:</strong> Was ist die Absicht? (z.B. den Mauerbau als Notwendigkeit legitimieren, den Westen diskreditieren, die DDR-Bürger disziplinieren).
+                        </div>
                     </div>
                 </div>
 
-                <!-- Formulierungen -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-bold text-lg mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">1. Der perfekte Einleitungssatz</h4>
-                        <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300">
-                            <li><strong>T</strong>itel, <strong>A</strong>utor, <strong>T</strong>extart, <strong>T</strong>hema, <strong>E</strong>rscheinungsjahr</li>
-                            <li class="mt-2 text-brandBlue dark:text-blue-400 font-semibold">+ Adressat (An wen gerichtet?)</li>
-                            <li class="text-brandBlue dark:text-blue-400 font-semibold">+ Intention (Was ist das Ziel?)</li>
-                        </ul>
-                        <div class="mt-3 bg-blue-50 dark:bg-blue-900/20 p-3 rounded text-sm font-mono border-l-4 border-brandBlue">
-                            "Die vorliegende Propagandarede, verfasst von... richtet sich an die DDR-Bevölkerung mit der Intention, den Mauerbau zu legitimieren..."
+                <!-- 2. Sprachliche Mittel entschlüsseln -->
+                <div class="mb-8 border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden">
+                    <div class="bg-slate-100 dark:bg-slate-700 p-4 font-bold">2. Sprachliche Mittel herausfiltern & entschlüsseln</div>
+                    <div class="p-5 text-sm text-slate-700 dark:text-slate-300 space-y-4">
+                        <p>Die DDR nutzte Sprache gezielt zur Manipulation (Propaganda). Wenn du diese Mittel in der Quelle findest (Zitation nicht vergessen!), musst du ihre Botschaft <strong>dekonstruieren</strong>:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 dark:bg-slate-700/30 p-4 rounded border">
+                                <h4 class="font-bold text-ddrRed mb-2">A. Euphemismen (Beschönigungen) & Umkehr</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><strong>"Antifaschistischer Schutzwall":</strong> Die Mauer wird als Schutzbauwerk <em>gegen</em> Angreifer von außen verklärt (Täter-Opfer-Umkehr).</li>
+                                    <li><strong>"Republikflucht":</strong> Ein Straftatbestand. Das Verlassen des eigenen Landes wird sprachlich wie eine kriminelle "Fahnenflucht" im Militär gewertet.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-700/30 p-4 rounded border">
+                                <h4 class="font-bold text-brandBlue mb-2">B. Militärische & Kämpferische Sprache</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Begriffe wie "Kampf um den Frieden", "Schutz", "Sieg", "Brigaden".</li>
+                                    <li><strong>Botschaft:</strong> Erzeugt eine ständige Bedrohungslage. Die DDR-Bürger sollen sich permanent wie im Kriegszustand fühlen, wodurch eiserne Disziplin und Härte gerechtfertigt werden.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-700/30 p-4 rounded border">
+                                <h4 class="font-bold text-green-600 mb-2">C. Schwarz-Weiß-Malerei / Feindbilder</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><strong>Der Westen:</strong> "Imperialisten", "Kriegstreiber", "Faschisten", "Monopolkapitalisten".</li>
+                                    <li><strong>Der Osten:</strong> "Friedenslager", "sozialistische Heimat".</li>
+                                    <li><strong>Botschaft:</strong> Dient der Legitimation des eigenen Systems durch Abwertung des Gegners.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-700/30 p-4 rounded border">
+                                <h4 class="font-bold text-orange-500 mb-2">D. Das kollektive "Wir-Gefühl"</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Ständige Nutzung von "Unsere Republik", "Unser Volk", "Wir Werktätige".</li>
+                                    <li><strong>Botschaft:</strong> Zwang zur Identifikation. Wer Kritik übt, stellt sich automatisch gegen "uns" und ist somit ein Feind des Kollektivs.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-3 border-b border-slate-200 dark:border-slate-700 pb-2">2. Wahrheitsgehalt beurteilen</h4>
-                        <p class="text-sm text-slate-700 dark:text-slate-300 mb-2">Nutze in der Klausur dein Vorwissen (Massenflucht, Fachkräftemangel), um die Propaganda zu entlarven.</p>
-                        <div class="bg-emerald-50 dark:bg-emerald-900/20 p-3 rounded text-sm font-mono border-l-4 border-emerald-500">
-                            "Vergleicht man die Aussage der Quelle mit dem historischen Kontext, zeigt sich, dass es sich um eine vorgeschobene Schutzbehauptung (Propaganda) handelt. Der Wahrheitsgehalt ist gering..."
+                </div>
+
+                <!-- 3. Wahrheitsgehalt beurteilen -->
+                <div class="mb-4 border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden">
+                    <div class="bg-slate-100 dark:bg-slate-700 p-4 font-bold flex gap-2 items-center"><i class="fa-solid fa-scale-balanced"></i> 3. Systemvergleich & Wahrheitsgehalt beurteilen</div>
+                    <div class="p-5 text-sm text-slate-700 dark:text-slate-300">
+                        <p class="mb-3">Im letzten Klausurteil (Anforderungsbereich III) musst du den <strong>Argumentationsgang des DDR-Systems bewerten</strong>. Du prüfst die Aussagen der Quelle gegen dein historisches Faktenwissen.</p>
+                        
+                        <div class="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-4 rounded">
+                            <h4 class="font-bold mb-2">Beispiel-Beurteilung (Mauerbau):</h4>
+                            <p class="mb-2"><em>"Ulbricht rechtfertigt den Mauerbau in der vorliegenden Quelle als Verteidigungsmaßnahme gegen westliche Militärschläge ("Schutzwall")."</em></p>
+                            <p class="mb-2"><strong>Wahrheitsgehalt prüfen:</strong> <em>"Vergleicht man diese ideologische Behauptung mit dem historischen Kontext, muss sie als Propagandalüge dekonstruiert werden. Das primäre Problem der DDR war 1961 kein militärischer Angriff des Westens, sondern das Ausbluten der eigenen Wirtschaft durch die massenhafte Abwanderung (Brain Drain) unzufriedener Bürger. Die Tatsache, dass das Grenzregime (Todesstreifen, Schießbefehl) baulich nahezu vollständig nach innen gerichtet war, um Fluchtbewegungen aus der DDR hinaus zu verhindern, belegt, dass die Mauer ein Gefängnis für das eigene Volk und kein Schutzschild nach außen war."</em></p>
+                            <p class="font-bold text-emerald-700 dark:text-emerald-400 mt-2">Fazit: Die Quelle besitzt einen sehr geringen Wahrheitsgehalt, sie ist ein rein instrumentelles Propagandainstrument der SED-Diktatur.</p>
                         </div>
                     </div>
                 </div>
@@ -430,14 +486,10 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- 1. Tab Navigation ---
         function switchTab(tabId) {
-            // Hide all sections
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-            // Show selected section
             document.getElementById(tabId).classList.add('active');
-
-            // Update button styles
+            
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if(btn.dataset.target === tabId) {
                     btn.classList.add('bg-brandBlue', 'text-white', 'shadow-md', 'shadow-blue-500/20');
@@ -448,27 +500,24 @@
                 }
             });
 
-            // Mobile: Scroll up slightly
             if(window.innerWidth < 1024) {
                 window.scrollTo({ top: document.querySelector('main').offsetTop - 80, behavior: 'smooth' });
             }
         }
 
-        // --- 2. Interaktive Checkliste (basiert auf PDF) ---
         const checklistItems = [
-            { id: "chk_1", text: "Ideologie (Sozialismus) & Demokratiebegriff" },
+            { id: "chk_1", text: "Ideologie & Demokratiebegriff" },
             { id: "chk_2", text: "Rolle von SED und Stasi" },
-            { id: "chk_3", text: "System der Planwirtschaft" },
-            { id: "chk_4", text: "17. Juni 1953 (Ursachen, Verlauf, Ergebnis)" },
-            { id: "chk_5", text: "Mauerbau: Ursachen & Reaktionen" },
-            { id: "chk_6", text: "Aufbau der Grenze & Schießbefehl" },
-            { id: "chk_7", text: "Propaganda entschlüsseln (Antifaschistischer Schutzwall)" },
-            { id: "chk_8", text: "Quelleneinleitung (Adressat & Intention)" }
+            { id: "chk_3", text: "Planwirtschaft erklärt" },
+            { id: "chk_4", text: "17. Juni 1953 (Ursachen/Verlauf/Ergebnis)" },
+            { id: "chk_5", text: "Mauerbau: Ursachen & Aufbau d. Grenze" },
+            { id: "chk_6", text: "Schießbefehl & Reaktionen" },
+            { id: "chk_7", text: "Sprachliche Mittel & Propaganda entschlüsseln" },
+            { id: "chk_8", text: "Quelleneinleitung & Wahrheitsgehalt" }
         ];
 
         const container = document.getElementById('checklist-container');
-
-        // Render Checklist
+        
         checklistItems.forEach(item => {
             const isChecked = localStorage.getItem(item.id) === 'true';
             const html = `
@@ -485,7 +534,6 @@
             container.innerHTML += html;
         });
 
-        // --- 3. Lernfortschritt berechnen ---
         function updateProgress(changedId = null) {
             if(changedId) {
                 const isChecked = document.getElementById(changedId).checked;
@@ -498,22 +546,19 @@
             });
 
             const percent = Math.round((checkedCount / checklistItems.length) * 100);
-
+            
             document.getElementById('progress-bar').style.width = percent + '%';
             document.getElementById('progress-text').innerText = `Lernfortschritt: ${percent}%`;
 
-            // Farbwechsel je nach Fortschritt
             const bar = document.getElementById('progress-bar');
             if(percent < 33) bar.className = "h-full bg-red-500 transition-all duration-500 ease-out";
             else if(percent < 99) bar.className = "h-full bg-yellow-500 transition-all duration-500 ease-out";
             else bar.className = "h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)] transition-all duration-500 ease-out";
         }
 
-        // --- 4. Dark Mode Toggle ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
-
-        // Prüfe gespeichertes Theme
+        
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
             themeIcon.classList.replace('fa-moon', 'fa-sun');
@@ -532,9 +577,7 @@
             }
         });
 
-        // Init initial calculation
         updateProgress();
-
     </script>
 </body>
 </html>
